@@ -39,11 +39,10 @@ class SplashViewController: UIViewController {
         // Get Reverse GeoLocation on the background
 //        reverseGeoCoder.getReverseGeoLoc()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.showMainVC()
         }
     }
-    
     
     private func initiateSubViews() {
         view.addSubview(viewController)
@@ -55,7 +54,6 @@ class SplashViewController: UIViewController {
         let svc = MainViewController()
         svc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         self.present(svc, animated: true, completion: nil)
-        
     }
 
 }

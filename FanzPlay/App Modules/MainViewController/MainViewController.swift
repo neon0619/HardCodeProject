@@ -100,7 +100,7 @@ class MainViewController: UIViewController {
     
     // Hide SideMenu when touch outside
     @objc func hideSideMenu() {
-        UIView.animate(withDuration: 0.48) {
+        UIView.animate(withDuration: 0.40) {
             if self.isSideMenuOpen {
                 self.isSideMenuOpen = false
                 print("Hide SideMenu")

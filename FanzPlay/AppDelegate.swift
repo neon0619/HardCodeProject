@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Set MainViewController as RootViewController
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let mainViewController  = SplashViewController() as UIViewController
+        let mainViewController  = SocialLoginViewController() as UIViewController
         self.window?.rootViewController = mainViewController
         self.window?.makeKeyAndVisible()
         print("excute splash screen")
