@@ -13,7 +13,6 @@ class MainViewController: UIViewController {
     let sideMenu = SideMenu()
     var isSideMenuOpen = false
     
-    
     // UIView for MainViewController
     lazy var viewController: UIView = {
         let viewView = UIView()
@@ -25,11 +24,12 @@ class MainViewController: UIViewController {
     
     // UIIMageView for Background
     lazy var bgImage: UIImageView = {
-        let image = UIImageView()
-        return image
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "bg_main")
+        return imageView
     }()
     
-
+    
     // UIButton for BurgerMenu
     lazy var menuBtn: UIButton = {
         let btn = UIButton(type: .custom)
@@ -40,6 +40,7 @@ class MainViewController: UIViewController {
         return btn
     }()
     
+    
     // Set initial Theme base on Device Location
     @objc func setInitialTheme() {
         
@@ -48,23 +49,21 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initiateSubViews()
-        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideSideMenu))
         viewController.addGestureRecognizer(tap)
         
     }
     
     
-    // Initiate all he SubViews
+    // Initiate all the SubViews
     private func initiateSubViews() {
         view.addSubview(viewController)
         view.addSubview(menuBtn)
-        
         view.addSubview(sideMenu.viewController)
         view.addSubview(sideMenu.sideMenuTable)
         view.addSubview(sideMenu.titleLbl)
-        
     }
+    
     
     // Toggle SideMenu
     @objc func toggleSideMenu() {
@@ -82,6 +81,7 @@ class MainViewController: UIViewController {
         }
     }
     
+    
     // Hide SideMenu when touch outside
     @objc func hideSideMenu() {
         UIView.animate(withDuration: 0.48) {
@@ -92,6 +92,5 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
 }
 
