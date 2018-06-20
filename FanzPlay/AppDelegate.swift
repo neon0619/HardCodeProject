@@ -8,22 +8,28 @@
 
 import UIKit
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let reverseGeoCoder = ReverseGeoCoder()
+
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        UIApplication.shared.statusBarStyle = .lightContent
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        
+        self.reverseGeoCoder.getReverseGeoLoc()
         
         // Set MainViewController as RootViewController
-        window = UIWindow(frame: UIScreen.main.bounds)
-        let mainViewController  = MainViewController() as UIViewController
-        window?.rootViewController = mainViewController
-        window?.makeKeyAndVisible()
-        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let mainViewController  = SplashViewController() as UIViewController
+        self.window?.rootViewController = mainViewController
+        self.window?.makeKeyAndVisible()
+        print("excute splash screen")
+
         return true
     }
 

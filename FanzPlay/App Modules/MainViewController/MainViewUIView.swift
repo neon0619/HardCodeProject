@@ -248,7 +248,9 @@ struct VIEW_CONFIG_EXLOGINVIEW {
                                                                              CGRect(x: 126, y: 20, width: 175, height: 1.3),
                                                                              CGRect(x: 0,  y: 4, width: 768, height: 34),
                                                                              CGRect(x: 466, y: 20, width: 175, height: 1.3)],
-                                                            
+                                                             
+                                                             
+                                                             
                                                              "midBtnView": [CGRect(x: 128, y: 665, width: 766, height: 162),
                                                                             
                                                                             CGRect(x: 96 + 30, y: 12, width: 61, height: 61),
@@ -256,6 +258,7 @@ struct VIEW_CONFIG_EXLOGINVIEW {
                                                                             CGRect(x: 96 + 30, y: 88, width: 61, height: 61),
                                                                             CGRect(x: 151 + 35, y: 88, width: 457, height: 61),
                                                                             CGRect(x: 96 + 30, y: 88, width: 457 + 61, height: 61)],
+                                                             
                                                              
                                                              
                                                              "botLineView": [CGRect(x: 128, y: 834, width: 768, height: 41),

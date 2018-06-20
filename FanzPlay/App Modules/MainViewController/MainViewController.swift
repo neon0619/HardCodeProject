@@ -8,10 +8,12 @@
 
 import UIKit
 
+
 class MainViewController: UIViewController {
     
     let sideMenu = SideMenu()
     var isSideMenuOpen = false
+
     
     // UIView for MainViewController
     lazy var viewController: UIView = {
@@ -25,11 +27,22 @@ class MainViewController: UIViewController {
     // UIIMageView for Background
     lazy var bgImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "bg_main")
+        imageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        imageView.image = UIImage(named: "bg_splash")
         return imageView
     }()
     
     
+    // ShadowImage for SideView is Open
+    lazy var shadowImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        imageView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+
     // UIButton for BurgerMenu
     lazy var menuBtn: UIButton = {
         let btn = UIButton(type: .custom)
@@ -46,24 +59,26 @@ class MainViewController: UIViewController {
         
     }
     
+    // ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         initiateSubViews()
+        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideSideMenu))
         viewController.addGestureRecognizer(tap)
-        
     }
     
     
-    // Initiate all the SubViews
+    // Initiate all he SubViews
     private func initiateSubViews() {
         view.addSubview(viewController)
+        view.addSubview(bgImage)
         view.addSubview(menuBtn)
+        view.addSubview(shadowImage)
         view.addSubview(sideMenu.viewController)
         view.addSubview(sideMenu.sideMenuTable)
         view.addSubview(sideMenu.titleLbl)
     }
-    
     
     // Toggle SideMenu
     @objc func toggleSideMenu() {
@@ -71,16 +86,17 @@ class MainViewController: UIViewController {
             if self.isSideMenuOpen {
                 self.isSideMenuOpen = false
                 print("Hide SideMenu")
+                self.shadowImage.isHidden = true
                 self.sideMenu.hideSideMenuDown()
             }else {
                 self.isSideMenuOpen = true
                 print("Show SideMenu")
+                self.shadowImage.isHidden = false
                 self.sideMenu.showSideMenuUp()
             }
             self.view.layoutIfNeeded()
         }
     }
-    
     
     // Hide SideMenu when touch outside
     @objc func hideSideMenu() {
@@ -88,9 +104,11 @@ class MainViewController: UIViewController {
             if self.isSideMenuOpen {
                 self.isSideMenuOpen = false
                 print("Hide SideMenu")
+                self.shadowImage.isHidden = true
                 self.sideMenu.hideSideMenuDown()
             }
         }
     }
+    
 }
 
