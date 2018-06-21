@@ -30,9 +30,114 @@ class SocialLoginViewController: UIViewController {
     lazy var fpLogo: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "fp_logo")
-        imageView.canPerformAction(#selector(sortUIByDeviceType), withSender: self)
         return imageView
     }()
+    
+    // UIImage for topLeftView
+    lazy var topLeftLine: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.white
+        return imageView
+    }()
+    
+    // UILabel for LblSignIn
+    lazy var lblSignInWith: UILabel = {
+        let label = UILabel()
+        label.text = "SIGN IN WITH"
+        label.textColor = UIColor.white
+        return label
+    }()
+    
+    // UIImage for topRightView
+    lazy var topRightLine: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.white
+        return imageView
+    }()
+    
+    // UIImage for imgFbLogo
+    lazy var imgFbLogo: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "btn_icon_facebook")
+        return imageView
+    }()
+    
+    // UIButton for btnFacebook
+    lazy var btnFacebook: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(hex: 0x3b5998)
+        button.setTitle("Sign In with Facebook", for: .normal)
+        button.addTarget(self, action: #selector(signInViaFacebook), for: .touchUpInside)
+        return button
+    }()
+    
+    // UIImage for imgGoogleLogo
+    lazy var imgGoogleLogo: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "btn_icon_google")
+        return imageView
+    }()
+    
+    // UIButton for btnGoogle
+    lazy var btnGoogle: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor.white
+        button.setTitle("Sign In with Google+", for: .normal)
+        button.setTitleColor(UIColor(hex: 0x3C3B3A), for: .normal)
+        button.addTarget(self, action: #selector(signInViaGoogle), for: .touchUpInside)
+        return button
+    }()
+    
+    
+    // UIImage for botLeftView
+    lazy var botLeftLine: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.white
+        return imageView
+    }()
+    
+    // UILabel for LblSignIn
+    lazy var lblOR: UILabel = {
+        let label = UILabel()
+        label.text = "OR"
+        label.textColor = UIColor.white
+        return label
+    }()
+    
+    // UIImage for botRightView
+    lazy var botRightLine: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.white
+        return imageView
+    }()
+    
+    // UIButton for btnRegister
+    lazy var btnRegister: UIButton = {
+        let button = UIButton()
+        button.setTitle("Register with Email", for: .normal)
+        button.setTitleColor(UIColor(hex: 0xFFFFFF), for: .normal)
+        button.titleLabel!.font = UIFont(name: "OpenSans-Semibold", size: 19)
+        button.addTarget(self, action: #selector(registerViaEmail), for: .touchUpInside)
+        return button
+    }()
+    
+    // UIButton for btnSignIn
+    lazy var btnSignIn: UIButton = {
+        let button = UIButton()
+        button.setTitle("Already have an Account? Sign In", for: .normal)
+        button.setTitleColor(UIColor(hex: 0xFFFFFF), for: .normal)
+        button.titleLabel!.font = UIFont(name: "OpenSans", size: 10)
+        button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+        return button
+    }()
+    
+    // UIImage for btnSignInUnderLine
+    lazy var btnSignInUnderLine: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.white
+        return imageView
+    }()
+    
 
     // ViewDidLoad
     override func viewDidLoad() {
@@ -42,12 +147,50 @@ class SocialLoginViewController: UIViewController {
         sortUIByDeviceType()
         
     }
+
     
     // Initiate all he SubViews
     private func initiateSubViews() {
         view.addSubview(viewController)
         view.addSubview(bgImage)
         view.addSubview(fpLogo)
+        view.addSubview(topLeftLine)
+        view.addSubview(lblSignInWith)
+        view.addSubview(topRightLine)
+        view.addSubview(imgFbLogo)
+        view.addSubview(btnFacebook)
+        view.addSubview(imgGoogleLogo)
+        view.addSubview(btnGoogle)
+        view.addSubview(botLeftLine)
+        view.addSubview(lblOR)
+        view.addSubview(botRightLine)
+        view.addSubview(btnRegister)
+        view.addSubview(btnSignIn)
+        view.addSubview(btnSignInUnderLine)
+    }
+    
+    func uiConfigSocialLoginSetup(loginRects: [String: Array<CGRect>]) {
+        fpLogo.frame             = loginRects["fpLogo"]![0]
+        
+        topLeftLine.frame           = loginRects["topLineView"]![0]
+        lblSignInWith.frame         = loginRects["topLineView"]![1]
+        topRightLine.frame          = loginRects["topLineView"]![2]
+
+        imgFbLogo.frame             = loginRects["midBtnView"]![0]
+        btnFacebook.frame           = loginRects["midBtnView"]![1]
+        imgGoogleLogo.frame         = loginRects["midBtnView"]![2]
+        btnGoogle.frame             = loginRects["midBtnView"]![3]
+
+        
+        botLeftLine.frame           = loginRects["botLineView"]![0]
+        lblOR.frame                  = loginRects["botLineView"]![1]
+        botRightLine.frame          = loginRects["botLineView"]![2]
+        
+        btnRegister.frame           = loginRects["btnRegister"]![0]
+
+        btnSignIn.frame             = loginRects["signInView"]![0]
+        btnSignInUnderLine.frame   = loginRects["signInView"]![1]
+        
     }
     
     @objc func sortUIByDeviceType() {
@@ -55,6 +198,7 @@ class SocialLoginViewController: UIViewController {
         print("run function ---> sortUIByDeviceType")
         
         switch true {
+            
         case Constants.DEVICE_TYPE.iPhone5:
             uiConfigSocialLoginSetup(loginRects: VIEW_CONFIG_SOCIALLOGINVIEW.iPhone_5.cgRectArrays)
             print("iphone5")
@@ -83,31 +227,22 @@ class SocialLoginViewController: UIViewController {
         
     }
     
-    func uiConfigSocialLoginSetup(loginRects: [String: Array<CGRect>]) {
-        fpLogo.frame             = loginRects["fpLogo"]![0]
-
-//        topLineView.frame           = loginRects["topLineView"]![0]
-//        topLeftLine.frame           = loginRects["topLineView"]![1]
-//        lblSignInWith.frame         = loginRects["topLineView"]![2]
-//        topRightLine.frame          = loginRects["topLineView"]![3]
-//
-//        midBtnView.frame            = loginRects["midBtnView"]![0]
-//        imgFbLogo.frame             = loginRects["midBtnView"]![1]
-//        btnFacebook.frame           = loginRects["midBtnView"]![2]
-//        imgGoogleLogo.frame         = loginRects["midBtnView"]![3]
-//        btnGoogle.frame             = loginRects["midBtnView"]![4]
-//        //        grayButton.frame            = loginRects["midBtnView"]![5]
-//        grayButton.isHidden = true
-//
-//        botLineView.frame           = loginRects["botLineView"]![0]
-//        botLeftLine.frame           = loginRects["botLineView"]![1]
-//        lblOR.frame                 = loginRects["botLineView"]![2]
-//        botRightLine.frame          = loginRects["botLineView"]![3]
-//
-//        btnRegister.frame           = loginRects["btnRegister"]![0]
-//
-//        btnSignIn.frame             = loginRects["signInView"]![0]
-//        btnSignInUnderLine.frame    = loginRects["signInView"]![1]
+    
+    @objc func signInViaFacebook() {
+        print("Facebook Selected")
     }
+    
+    @objc func signInViaGoogle() {
+        print("Geogle Selected")
+    }
+    
+    @objc func registerViaEmail() {
+        print("Register Selected")
+    }
+    
+    @objc func signIn() {
+        print("Signin Selected")
+    }
+
 
 }
