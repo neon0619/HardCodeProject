@@ -44,6 +44,7 @@ class SocialLoginViewController: UIViewController {
     lazy var lblSignInWith: UILabel = {
         let label = UILabel()
         label.text = "SIGN IN WITH"
+        label.adjustsFontSizeToFitWidth = true
         label.textColor = UIColor.white
         return label
     }()
@@ -100,6 +101,7 @@ class SocialLoginViewController: UIViewController {
     lazy var lblOR: UILabel = {
         let label = UILabel()
         label.text = "OR"
+        label.adjustsFontSizeToFitWidth = true
         label.textColor = UIColor.white
         return label
     }()
@@ -116,7 +118,7 @@ class SocialLoginViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Register with Email", for: .normal)
         button.setTitleColor(UIColor(hex: 0xFFFFFF), for: .normal)
-        button.titleLabel!.font = UIFont(name: "OpenSans-Semibold", size: 19)
+        button.titleLabel!.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(registerViaEmail), for: .touchUpInside)
         return button
     }()
@@ -124,9 +126,10 @@ class SocialLoginViewController: UIViewController {
     // UIButton for btnSignIn
     lazy var btnSignIn: UIButton = {
         let button = UIButton()
+        button.titleLabel!.font = UIFont(name: "OpenSans", size: 5)
         button.setTitle("Already have an Account? Sign In", for: .normal)
         button.setTitleColor(UIColor(hex: 0xFFFFFF), for: .normal)
-        button.titleLabel!.font = UIFont(name: "OpenSans", size: 10)
+        button.titleLabel!.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         return button
     }()
@@ -143,9 +146,7 @@ class SocialLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initiateSubViews()
-        
         sortUIByDeviceType()
-        
     }
 
     
