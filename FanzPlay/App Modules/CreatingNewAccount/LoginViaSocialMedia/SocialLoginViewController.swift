@@ -141,35 +141,6 @@ class SocialLoginViewController: UIViewController {
         return imageView
     }()
     
-
-    // ViewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        initiateSubViews()
-        sortUIByDeviceType()
-    }
-
-    
-    // Initiate all he SubViews
-    private func initiateSubViews() {
-        view.addSubview(viewController)
-        view.addSubview(bgImage)
-        view.addSubview(fpLogo)
-        view.addSubview(topLeftLine)
-        view.addSubview(lblSignInWith)
-        view.addSubview(topRightLine)
-        view.addSubview(imgFbLogo)
-        view.addSubview(btnFacebook)
-        view.addSubview(imgGoogleLogo)
-        view.addSubview(btnGoogle)
-        view.addSubview(botLeftLine)
-        view.addSubview(lblOR)
-        view.addSubview(botRightLine)
-        view.addSubview(btnRegister)
-        view.addSubview(btnSignIn)
-        view.addSubview(btnSignInUnderLine)
-    }
-    
     func uiConfigSocialLoginSetup(loginRects: [String: Array<CGRect>]) {
         fpLogo.frame             = loginRects["fpLogo"]![0]
         
@@ -196,8 +167,6 @@ class SocialLoginViewController: UIViewController {
     
     @objc func sortUIByDeviceType() {
         
-        print("run function ---> sortUIByDeviceType")
-        
         switch true {
             
         case Constants.DEVICE_TYPE.iPhone5:
@@ -223,9 +192,34 @@ class SocialLoginViewController: UIViewController {
             print("ipad_12")
         default:
             print(" -unknown")
-            
         }
-        
+    }
+    
+    // Initiate all he SubViews
+    private func initiateSubViews() {
+        view.addSubview(viewController)
+        view.addSubview(bgImage)
+        view.addSubview(fpLogo)
+        view.addSubview(topLeftLine)
+        view.addSubview(lblSignInWith)
+        view.addSubview(topRightLine)
+        view.addSubview(imgFbLogo)
+        view.addSubview(btnFacebook)
+        view.addSubview(imgGoogleLogo)
+        view.addSubview(btnGoogle)
+        view.addSubview(botLeftLine)
+        view.addSubview(lblOR)
+        view.addSubview(botRightLine)
+        view.addSubview(btnRegister)
+        view.addSubview(btnSignIn)
+        view.addSubview(btnSignInUnderLine)
+    }
+    
+    // ViewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initiateSubViews()
+        sortUIByDeviceType()
     }
     
     
