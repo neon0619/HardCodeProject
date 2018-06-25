@@ -10,6 +10,7 @@ import UIKit
 import FBSDKLoginKit
 import Firebase
 import FirebaseAuth
+import GoogleSignIn
 
 
 class SocialLoginViewController: UIViewController {
@@ -134,7 +135,7 @@ class SocialLoginViewController: UIViewController {
         button.setTitle("Already have an Account? Sign In", for: .normal)
         button.setTitleColor(UIColor(hex: 0xFFFFFF), for: .normal)
         button.titleLabel!.adjustsFontSizeToFitWidth = true
-        button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+        button.addTarget(self, action: #selector(signInViaEmail), for: .touchUpInside)
         return button
     }()
     
@@ -301,15 +302,22 @@ class SocialLoginViewController: UIViewController {
         }
     }
     
-    @objc func signInViaGoogle() {
-        print("Google Selected")
+    
+    
+    @objc func signInViaGoogle(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
+        if (error == nil) {
+            // Perform any operations on signed in user here.
+            // ...
+        } else {
+            print("\(error.localizedDescription)")
+        }
     }
     
     @objc func registerViaEmail() {
         print("Register Selected")
     }
     
-    @objc func signIn() {
+    @objc func signInViaEmail() {
         print("Signin Selected")
     }
 
