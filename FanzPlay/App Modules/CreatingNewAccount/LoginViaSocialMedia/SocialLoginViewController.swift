@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import FBSDKLoginKit
+import Firebase
+import FirebaseAuth
+
 
 class SocialLoginViewController: UIViewController {
     
@@ -142,6 +146,7 @@ class SocialLoginViewController: UIViewController {
     }()
     
     func uiConfigSocialLoginSetup(loginRects: [String: Array<CGRect>]) {
+        
         fpLogo.frame             = loginRects["fpLogo"]![0]
         
         topLeftLine.frame           = loginRects["topLineView"]![0]
@@ -153,7 +158,6 @@ class SocialLoginViewController: UIViewController {
         imgGoogleLogo.frame         = loginRects["midBtnView"]![2]
         btnGoogle.frame             = loginRects["midBtnView"]![3]
 
-        
         botLeftLine.frame           = loginRects["botLineView"]![0]
         lblOR.frame                  = loginRects["botLineView"]![1]
         botRightLine.frame          = loginRects["botLineView"]![2]
@@ -222,13 +226,83 @@ class SocialLoginViewController: UIViewController {
         sortUIByDeviceType()
     }
     
-    
     @objc func signInViaFacebook() {
-        print("Facebook Selected")
+        
+    
+        FBSDKLoginManager().logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
+            
+//            guard let currentUser = Auth.auth().currentUser else { print("NONE")
+//                return }
+//            print("current user email --->>>> \(String(describing: currentUser.email!))")
+            
+            
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
+                
+                if (error == nil) {
+                    let dictionary = result as! NSDictionary
+                    
+                    print("dictionary ----->>> \(dictionary)")
+                    
+                    //Temporary Solution
+//                    if dictionary["email"] == nil {
+//                        self.regEmail = "\(String(describing: dictionary["last_name"]!))\(String(describing: dictionary["first_name"]!))@gmail.com"
+//                        print("regEmail is nil ---->>>> \(String(describing: dictionary["last_name"]!))\(String(describing: dictionary["first_name"]!))@gmail.commm")
+//                    }else {
+//                        self.regEmail = dictionary["email"] as! String
+//                    }
+                    
+//                    self.regId = dictionary["id"] as! String
+//                    self.providerKey = "Facebook"
+//                    self.fbLoginSuccess = true
+                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SegueNotification.EXTERNAL_LOGIN), object: nil)
+//                    }
+                    
+                }else {
+                    return
+                }
+            })
+            
+            if let error = error {
+                print("Failed to login: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let accessToken = FBSDKAccessToken.current() else {
+                print("Failed to get access token")
+                return
+            }
+            
+            print("FBSDKAccessToken.current() ---->>> \(String(describing: FBSDKAccessToken.current()?.tokenString))")
+            
+            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            
+            // Perform login by calling Firebase APIs
+            Auth.auth().signIn(with: credential, completion: { (user, error) in
+                
+                if let error = error {
+                    print("Login error: \(error.localizedDescription)")
+                    let alertController = UIAlertController(title: "Login Error", message: error.localizedDescription, preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertController.addAction(okayAction)
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    return
+                }
+                
+                // Present the main view
+//                if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "MainView") {
+//                    UIApplication.shared.keyWindow?.rootViewController = viewController
+//                    self.dismiss(animated: true, completion: nil)
+//                }
+                
+            })
+        }
     }
     
     @objc func signInViaGoogle() {
-        print("Geogle Selected")
+        print("Google Selected")
     }
     
     @objc func registerViaEmail() {
