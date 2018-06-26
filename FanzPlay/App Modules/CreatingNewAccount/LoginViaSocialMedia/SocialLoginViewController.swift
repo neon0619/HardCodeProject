@@ -11,9 +11,10 @@ import FBSDKLoginKit
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
+import FirebaseMessaging
 
 
-class SocialLoginViewController: UIViewController {
+class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
     
     // UIView for SocialLoginViewController
     lazy var viewController: UIView = {
@@ -85,7 +86,7 @@ class SocialLoginViewController: UIViewController {
     }()
     
     // UIButton for btnGoogle
-    lazy var btnGoogle: UIButton = {
+    lazy var btnGoogle: UIButton! = {
         let button = UIButton()
         button.backgroundColor = UIColor.white
         button.setTitle("Sign In with Google+", for: .normal)
@@ -225,6 +226,7 @@ class SocialLoginViewController: UIViewController {
         super.viewDidLoad()
         initiateSubViews()
         sortUIByDeviceType()
+        
     }
     
     @objc func signInViaFacebook() {
@@ -304,21 +306,48 @@ class SocialLoginViewController: UIViewController {
     
     
     
-    @objc func signInViaGoogle(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
-        if (error == nil) {
-            // Perform any operations on signed in user here.
-            // ...
-        } else {
-            print("\(error.localizedDescription)")
+    @objc func signInViaGoogle(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: Error!) {
+        
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().signIn()
+        
+        if error != nil {
+            
+            return
         }
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+        print("credentials --->>> \(credential)")
+        
+        Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
+            if error != nil {
+                // ...
+                return
+            }
+            print("authResult ---->>> \(String(describing: authResult))")
+        }
+        
     }
     
     @objc func registerViaEmail() {
         print("Register Selected")
     }
     
+    
     @objc func signInViaEmail() {
         print("Signin Selected")
+    }
+    
+    
+    
+    @objc func signOut() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
     }
 
 

@@ -12,8 +12,9 @@ import FBSDKCoreKit
 import GoogleSignIn
 
 
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
     let reverseGeoCoder = ReverseGeoCoder()
@@ -28,8 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         // Initialize Google Login
-//        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
-//        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().delegate = self
 
         
         // Make statusBarStyle color White
@@ -43,6 +44,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = mainViewController
         self.window?.makeKeyAndVisible()
         print("excute splash screen")
+        
+        
+        if InstanceID.instanceID().token() != nil {
+            print("Instance ID ------->>> \(String(describing: InstanceID.instanceID().token()!))")
+        }else {
+            print("NIL")
+        }
+        
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(self.tokenRefreshNotification),
+//                                               name: .firInstanceIDTokenRefresh,
+//                                               object: nil)
 
         return true
     }
@@ -72,11 +85,87 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     // Facebook Login Methods
+    @available(iOS 9.0, *)
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
         
-        return handled
+//        print("FB prefix --->>>> \((url.scheme?.hasPrefix)!)")
+        
+        if (url.scheme?.hasPrefix("fb"))! {
+            let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
+            print("Facebook called")
+            return handled
+        }else {
+            print("Google called")
+            return GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
+        }
     }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+        // ...
+        if error != nil {
+            // ...
+            return
+        }
+        
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+        print("googel credentials --->>> \(credential.provider)")
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        print("Disconnected from the app.")
+        // ...
+    }
+    
+    
+    @objc func tokenRefreshNotification(_ notification: Notification) {
+        
+        //print(" ********* == tokenRefreshNotification()")
+        
+        if InstanceID.instanceID().token() != nil {
+            //print("InstanceID token: \(refreshedToken)")
+        }
+        
+        // Connect to FCM since connection may have failed when attempted before having a token.
+        //        connectToFcm()
+        
+        connectToFCM { (fcmToken) in
+            //print("FUNCTION CALLED 11111")
+            print(" ********** FCMToken == \(fcmToken)")
+            
+        }
+    }
+    
+    func connectToFCM(postCompleted: @escaping (_ fcmToken: String) -> ()) {
+        
+        if ConnectionDetector.isConnectedToNetwork() {
+            
+            guard InstanceID.instanceID().token() != nil else {
+                return
+            }
+            
+            // Disconnect previous FCM connection if it exists.
+            Messaging.messaging().shouldEstablishDirectChannel = false
+            
+            if Messaging.messaging().shouldEstablishDirectChannel == true {
+                
+                if InstanceID.instanceID().token() != nil || InstanceID.instanceID().token() != "" {
+                    postCompleted(InstanceID.instanceID().token()!)
+                    
+                    print("FIRInstanceID.instanceID().token() ----->>> \(InstanceID.instanceID().token()!)")
+                }else {
+                    return
+                }
+                
+            }
+        
+        }else {
+            guard InstanceID.instanceID().token() != nil else { return }
+        }
+        
+    }
+
 
 }
 

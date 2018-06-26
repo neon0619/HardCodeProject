@@ -12,5 +12,7 @@ pod 'Bolts'
 pod 'FBSDKCoreKit'
 pod 'FBSDKLoginKit'
 pod 'GoogleSignIn'
+pod 'Firebase/Messaging'
+
 
 end
