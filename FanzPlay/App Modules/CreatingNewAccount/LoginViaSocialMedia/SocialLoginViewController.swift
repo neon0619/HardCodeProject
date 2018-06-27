@@ -95,7 +95,6 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         return button
     }()
     
-    
     // UIImage for botLeftView
     lazy var botLeftLine: UIImageView = {
         let imageView = UIImageView()
@@ -147,34 +146,10 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         return imageView
     }()
     
-    func uiConfigSocialLoginSetup(loginRects: [String: Array<CGRect>]) {
-        
-        fpLogo.frame             = loginRects["fpLogo"]![0]
-        
-        topLeftLine.frame           = loginRects["topLineView"]![0]
-        lblSignInWith.frame         = loginRects["topLineView"]![1]
-        topRightLine.frame          = loginRects["topLineView"]![2]
-
-        imgFbLogo.frame             = loginRects["midBtnView"]![0]
-        btnFacebook.frame           = loginRects["midBtnView"]![1]
-        imgGoogleLogo.frame         = loginRects["midBtnView"]![2]
-        btnGoogle.frame             = loginRects["midBtnView"]![3]
-
-        botLeftLine.frame           = loginRects["botLineView"]![0]
-        lblOR.frame                  = loginRects["botLineView"]![1]
-        botRightLine.frame          = loginRects["botLineView"]![2]
-        
-        btnRegister.frame           = loginRects["btnRegister"]![0]
-
-        btnSignIn.frame             = loginRects["signInView"]![0]
-        btnSignInUnderLine.frame   = loginRects["signInView"]![1]
-        
-    }
     
+    // Get the Arrays of CGRect per Device Type
     @objc func sortUIByDeviceType() {
-        
         switch true {
-            
         case Constants.DEVICE_TYPE.iPhone5:
             uiConfigSocialLoginSetup(loginRects: VIEW_CONFIG_SOCIALLOGINVIEW.iPhone_5.cgRectArrays)
             print("iphone5")
@@ -201,7 +176,32 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         }
     }
     
-    // Initiate all he SubViews
+    
+    // Configure frames method
+    func uiConfigSocialLoginSetup(loginRects: [String: Array<CGRect>]) {
+        fpLogo.frame                = loginRects["fpLogo"]![0]
+        
+        topLeftLine.frame           = loginRects["topLineView"]![0]
+        lblSignInWith.frame         = loginRects["topLineView"]![1]
+        topRightLine.frame          = loginRects["topLineView"]![2]
+        
+        imgFbLogo.frame             = loginRects["midBtnView"]![0]
+        btnFacebook.frame           = loginRects["midBtnView"]![1]
+        imgGoogleLogo.frame         = loginRects["midBtnView"]![2]
+        btnGoogle.frame             = loginRects["midBtnView"]![3]
+        
+        botLeftLine.frame           = loginRects["botLineView"]![0]
+        lblOR.frame                 = loginRects["botLineView"]![1]
+        botRightLine.frame          = loginRects["botLineView"]![2]
+        
+        btnRegister.frame           = loginRects["btnRegister"]![0]
+        
+        btnSignIn.frame             = loginRects["signInView"]![0]
+        btnSignInUnderLine.frame    = loginRects["signInView"]![1]
+    }
+    
+    
+    // Initiate all the SubViews
     private func initiateSubViews() {
         view.addSubview(viewController)
         view.addSubview(bgImage)
@@ -231,13 +231,11 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
     
     @objc func signInViaFacebook() {
         
-    
         FBSDKLoginManager().logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
             
-//            guard let currentUser = Auth.auth().currentUser else { print("NONE")
-//                return }
-//            print("current user email --->>>> \(String(describing: currentUser.email!))")
-            
+            guard let currentUser = Auth.auth().currentUser else { print("NONE")
+                return }
+            print("current user email --->>>> \(String(describing: currentUser.email!))")
             
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
                 
@@ -253,11 +251,11 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
 //                    }else {
 //                        self.regEmail = dictionary["email"] as! String
 //                    }
-                    
+//                    
 //                    self.regId = dictionary["id"] as! String
 //                    self.providerKey = "Facebook"
 //                    self.fbLoginSuccess = true
-                    
+//                    
 //                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 //                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SegueNotification.EXTERNAL_LOGIN), object: nil)
 //                    }

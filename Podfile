@@ -8,11 +8,11 @@ target 'FanzPlay' do
 # Pods for FanzPlay
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
+pod 'Firebase/Messaging'
 pod 'Bolts'
 pod 'FBSDKCoreKit'
 pod 'FBSDKLoginKit'
 pod 'GoogleSignIn'
-pod 'Firebase/Messaging'
 
 
 end
