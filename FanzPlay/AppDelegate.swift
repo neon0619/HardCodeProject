@@ -118,7 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     
     // [END connect_to_fcm]
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Unable to register for remote notifications: \(error.localizedDescription)")
+        print("\(className) == didFailToRegisterForRemoteNotificationsWithError --- >>> \(error.localizedDescription)")
     }
     
     
@@ -126,6 +126,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
     // the InstanceID token.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        print("\(className) Deployment \(deviceToken)")
+        
+        Messaging.messaging().apnsToken = deviceToken
         
         //print(" ********* == didRegisterForRemoteNotificationsWithDeviceToken()")
         //print("ANs token retrieved: \(deviceToken)")
@@ -139,7 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         // ---->>>>> DEPLOYMENT <<<<<-----
         InstanceID.instanceID().setAPNSToken(deviceToken, type: InstanceIDAPNSTokenType.sandbox)
-        //        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: FIRInstanceIDAPNSTokenType.prod)
+        InstanceID.instanceID().setAPNSToken(deviceToken, type: InstanceIDAPNSTokenType.prod)
         
         //        //print("tokenString: \(tokenString)")
         // With swizzling disabled you must set the APNs token here.
@@ -160,7 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     // [START connect_on_active]
     func applicationDidBecomeActive(_ application: UIApplication) {
         connectToFCM { (fcmToken) in
-            print(" ********** FCMToken applicationDidBecomeActive == \(fcmToken)")
+            // Save FCM Token
         }
     }
     // [END connect_on_active]
@@ -172,7 +176,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     //end firebase
     
-    
+    func convertStringToDictionary(text: String) -> [String:AnyObject]? {
+        if let data = text.data(using: String.Encoding.utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject]
+            } catch let error as NSError {
+                print(error)
+            }
+        }
+        return nil
+    }
+
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
@@ -212,9 +226,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         // ...
     }
     
-    
     @objc func tokenRefreshNotification(_ notification: Notification) {
-        
         
         if InstanceID.instanceID().token() != nil {
             print("\(className) instance token not NIL")
@@ -224,8 +236,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         // Connect to FCM since connection may have failed when attempted before having a token.
         connectToFCM { (fcmToken) in
-            print("\(self.className)********** FCMToken == \(fcmToken)")
-            
+            // Save Token Globally or in Singleton
         }
     }
     
@@ -263,63 +274,159 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
 }
 
-// [START ios_10_message_handling]
 @available(iOS 10, *)
 extension AppDelegate : UNUserNotificationCenterDelegate {
     
     // Receive displayed notifications for iOS 10 devices.
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let userInfo = notification.request.content.userInfo as! [String: Any]
-        
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
         // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("\(className)Message ID: \(messageID)")
+//        if let messageID = userInfo[gcmMessageIDKey] {
+//            print("\(className) Message ID: \(messageID)")
+//        }
+        
+        if userInfo[gcmMessageIDKey] != nil {
+//            print("Message ID: \(messageID)")
         }
         
         // Print full message.
-        print("\(className)userInfo == \(userInfo)")
+        //print("- \n willPresent notification: \(userInfo) \n")
         
+        let result = self.convertStringToDictionary(text:userInfo["message"] as! String)
+        receiveMessageSwitch(result: result!)
+        
+        //push received here
         // Change this to your preferred presentation option
-        completionHandler([.alert, .badge, .sound])
+        completionHandler([])
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
+        if userInfo[gcmMessageIDKey] != nil {
+            //print("Message ID: \(messageID)")
         }
         
         // Print full message.
-        print(userInfo)
+        //print("- \n didReceive response: \(userInfo) \n")
+        let result = self.convertStringToDictionary(text:userInfo["message"] as! String)
+        receiveMessageSwitch(result: result!)
         
         completionHandler()
     }
-}
-// [END ios_10_message_handling]
-
-extension AppDelegate : MessagingDelegate {
-    // [START refresh_token]
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("\(className)Firebase registration token: \(fcmToken)")
+    
+    func receiveMessageSwitch(result: [String:AnyObject]) {
+        let type = result["Type"] as! Int
+//        let message = try JSONSerialization.jsonObject(with: result, options: .mutableContainers) as! NSDictionary
+        print("\(className) receiveMessageSwitch typemessage ---->>> \(type) ----")
         
-        let dataDict:[String: String] = ["token": fcmToken]
-        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
-        // TODO: If necessary send token to application server.
-        // Note: This callback is fired at each app startup and whenever a new token is generated.
+        switch (type) {
+        case 0:
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "GameStartNotification"), object: nil)
+            break
+            
+        case 1:
+            
+            // Receives Rewards List
+//            CurrentEvent = FPCurrentEvent(json: message.dictionaryObject!)
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showRewardListViewNotification"), object: nil)
+            break
+            
+        case 2:
+            
+            // Recieves Set of Questions
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "EndEventNotification"), object: nil)
+//            CurrentQuestion = FPQuestion(json: message.dictionaryObject!)
+//            CurrentChoices = [FPChoice]()
+//            for (_,subJson) in message["Choices"] {
+//                if let tmpObj = FPChoice(json: subJson.dictionaryObject!) {
+//                    CurrentChoices.append(tmpObj)
+//                }
+//            }
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "TriviaQuestionNotification"), object: nil)
+            break
+            
+        case 4:
+            
+            // Receives Roundresults Score
+            
+//            RoundResult = FPRoundResult(json: message.dictionaryObject!)
+//
+//            while RoundResult!.HomeTeamPercentage == nil {
+//                print("while loop is running")
+//                RoundResult = FPRoundResult(json: message.dictionaryObject!)
+//            }
+//
+//            DispatchQueue.global().sync {
+//                print(" --->>> 1 --- InsertData")
+//                RoundResult = FPRoundResult(json: message.dictionaryObject!)
+//                print(" --->>> 2 --- NotificationCenter")
+//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RoundResultNotification"), object: nil)
+//                print(" --->>> 3 --- While Loop False and Ends...")
+//            }
+            break
+            
+        case 5:
+            
+            // Recieves FinalResults
+//            GlobalUser?.IsInGame = false
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "GameEndNotification"), object: nil)
+//
+//            if SharedPreference().getGameType() == GAME_TYPE.RIVALRY {
+//
+//                RoundResult = FPRoundResult(json: message.dictionaryObject!)
+//
+//                while RoundResult!.HomeTeamPercentage == nil {
+//                    print("while loop is running")
+//                    RoundResult = FPRoundResult(json: message.dictionaryObject!)
+//                }
+//
+//                DispatchQueue.global().sync {
+//                    print(" --->>> 1 --- InsertData")
+//                    RoundResult = FPRoundResult(json: message.dictionaryObject!)
+//                    print(" --->>> 2 --- NotificationCenter")
+//                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "GameSummaryNotification"), object: nil)
+//                    print(" --->>> 3 --- While Loop False and Ends...")
+//
+//                    print("RoundResults Data -->> \(RoundResult!)")
+//                }
+//
+//            }else {
+//                EliminationLeaderboard = FPEliLeaderboard(json: message.dictionaryObject!)
+//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showLeaderboard"), object: nil)
+//            }
+            break
+            
+        case 7:
+            
+//            EliminationQuestion = FPEliminationQuestion(json: message.dictionaryObject!)
+            // ShowEliminationQuestion
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ShowEliminationQuestion"), object: nil)
+            
+            break
+        default:
+            print("done")
+        }
     }
-    // [END refresh_token]
-    // [START ios_10_data_message]
-    // Receive data messages on iOS 10+ directly from FCM (bypassing APNs) when the app is in the foreground.
-    // To enable direct data messages, you can set Messaging.messaging().shouldEstablishDirectChannel to true.
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print("\(className)Received data message: \(remoteMessage.appData)")
-    }
-    // [END ios_10_data_message]
 }
+
+
+// [END ios_10_message_handling]
+// [START ios_10_data_message_handling]
+@available(iOS 10.0, *)
+extension AppDelegate : MessagingDelegate {
+    // Receive data message on iOS 10 devices while app is in the foreground.
+    func application(received remoteMessage: MessagingRemoteMessage) {
+                print("\(className)- \n applicationReceivedRemoteMessage: \(remoteMessage.appData) \n")
+        
+        //        //print("---remoteMessage-->>>> \(remoteMessage.appData)")
+        
+        let result = self.convertStringToDictionary(text:remoteMessage.appData["message"] as! String)
+        receiveMessageSwitch(result: result!)
+        
+        print("\(className)---result-->>> \(String(describing: result))")
+        
+    }
+}
+// [END ios_10_data_message_handling]
