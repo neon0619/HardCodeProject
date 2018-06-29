@@ -55,28 +55,24 @@ struct VIEW_CONFIG_SOCIALLOGINVIEW {
         
         static let cgRectArrays: [String: Array<CGRect>]  = ["fpLogo": [CGRect(x: 110, y: 80, width: 180.0, height: 180.0)],
                                                              
-                                                             
                                                                "topLineView": [CGRect(x: 36,  y: 276 + 20, width: 90, height: 1),
-                                                                                 CGRect(x: 134,   y: 276 + 3, width: 375, height: 34),
-                                                                                 CGRect(x: 248, y: 276 + 20, width: 90, height: 1)],
+                                                                               CGRect(x: 134,   y: 276 + 3, width: 375, height: 34),
+                                                                               CGRect(x: 248, y: 276 + 20, width: 90, height: 1)],
         
-
                                                                 "midBtnView": [CGRect(x: 36, y: 14 + 310, width: 50, height: 50),
-                                                                                CGRect(x: 85, y: 14 + 310, width: 254, height: 50),
-                                                                                CGRect(x: 36, y: 75 + 310, width: 50, height: 50),
-                                                                                CGRect(x: 85, y: 75 + 310, width: 254, height: 50),
-                                                                                CGRect(x: 36, y: 75 + 310, width: 254 + 50, height: 50)],
-
+                                                                               CGRect(x: 85, y: 14 + 310, width: 254, height: 50),
+                                                                               CGRect(x: 36, y: 75 + 310, width: 50, height: 50),
+                                                                               CGRect(x: 85, y: 75 + 310, width: 254, height: 50),
+                                                                               CGRect(x: 36, y: 75 + 310, width: 254 + 50, height: 50)],
         
                                                                 "botLineView": [CGRect(x: 36, y: 20 + 442, width: 125, height: 1),
-                                                                                 CGRect(x: 175,  y: 3 + 442, width: 375, height: 34),
-                                                                                 CGRect(x: 214, y: 20 + 442, width: 125, height: 1)],
+                                                                                CGRect(x: 175,  y: 3 + 442, width: 375, height: 34),
+                                                                                CGRect(x: 214, y: 20 + 442, width: 125, height: 1)],
 
                                                                 "btnRegister": [CGRect(x: 36, y: 510, width: 303, height: 45)],
 
-
                                                                 "signInView":  [CGRect(x: 80, y: 618, width: 215, height: 50),
-                                                                                 CGRect(x: 247, y: 653, width: 45, height: 1)]
+                                                                                CGRect(x: 247, y: 653, width: 45, height: 1)]
         ]
         
     }

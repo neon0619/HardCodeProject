@@ -221,11 +221,15 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         view.addSubview(btnSignInUnderLine)
     }
     
+    let userDataModel = UserDataModel()
+    
     // ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         initiateSubViews()
         sortUIByDeviceType()
+        
+        userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", email: "", providerKey: "", registrationToken: "", loginProvider: "")
         
     }
     
