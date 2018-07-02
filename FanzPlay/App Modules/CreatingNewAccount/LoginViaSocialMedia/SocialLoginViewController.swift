@@ -7,14 +7,21 @@
 //
 
 import UIKit
+import FacebookLogin
 import FBSDKLoginKit
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
 import FirebaseMessaging
 
-
 class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
+    
+    private let className = "--- SocialLoginViewController: ------->>>"
+    
+    var email = ""
+    var provKey = ""
+    var regToken = ""
+    var logProv = ""
     
     // UIView for SocialLoginViewController
     lazy var viewController: UIView = {
@@ -235,77 +242,107 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
     
     @objc func signInViaFacebook() {
         
-        FBSDKLoginManager().logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
-            
-            guard let currentUser = Auth.auth().currentUser else { print("NONE")
-                return }
-            print("current user email --->>>> \(String(describing: currentUser.email!))")
-            
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
-                
-                if (error == nil) {
-                    let dictionary = result as! NSDictionary
-                    
-                    print("dictionary ----->>> \(dictionary)")
-                    
-                    //Temporary Solution
-//                    if dictionary["email"] == nil {
-//                        self.regEmail = "\(String(describing: dictionary["last_name"]!))\(String(describing: dictionary["first_name"]!))@gmail.com"
-//                        print("regEmail is nil ---->>>> \(String(describing: dictionary["last_name"]!))\(String(describing: dictionary["first_name"]!))@gmail.commm")
-//                    }else {
-//                        self.regEmail = dictionary["email"] as! String
-//                    }
-//                    
-//                    self.regId = dictionary["id"] as! String
-//                    self.providerKey = "Facebook"
-//                    self.fbLoginSuccess = true
-//                    
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: SegueNotification.EXTERNAL_LOGIN), object: nil)
-//                    }
-                    
-                }else {
-                    return
-                }
-            })
-            
-            if let error = error {
-                print("Failed to login: \(error.localizedDescription)")
-                return
+        print("\(className) signInViaFacebook triggered")
+        
+        let fbLoginManager : LoginManager = LoginManager()
+        
+        if let currentAccessToken = FBSDKAccessToken.current(), currentAccessToken.appID != FBSDKSettings.appID() {
+            fbLoginManager.logOut()
+        }
+        
+        fbLoginManager.logIn(readPermissions: [.publicProfile], viewController : self) { loginResult in
+            switch loginResult {
+            case .failed(let error):
+                print("\(self.className) error --->> \(error)")
+            case .cancelled:
+                print("\(self.className) User cancelled login.")
+            case .success( _, _, _):
+                print("\(self.className) Logged in!")
+                self.getFBUserData()
+                fbLoginManager.logOut()
             }
-            
-            guard let accessToken = FBSDKAccessToken.current() else {
-                print("Failed to get access token")
-                return
-            }
-            
-            print("FBSDKAccessToken.current() ---->>> \(String(describing: FBSDKAccessToken.current()?.tokenString))")
-            
-            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-            
-            // Perform login by calling Firebase APIs
-            Auth.auth().signIn(with: credential, completion: { (user, error) in
-                
-                if let error = error {
-                    print("Login error: \(error.localizedDescription)")
-                    let alertController = UIAlertController(title: "Login Error", message: error.localizedDescription, preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(okayAction)
-                    self.present(alertController, animated: true, completion: nil)
-                    
-                    return
-                }
-                
-                // Present the main view
-//                if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "MainView") {
-//                    UIApplication.shared.keyWindow?.rootViewController = viewController
-//                    self.dismiss(animated: true, completion: nil)
-//                }
-                
-            })
         }
     }
     
+    func getFBUserData() {
+        
+        if ConnectionDetector.isConnectedToNetwork() {
+//            FBSDKLoginManager().logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
+            
+                FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
+                    
+                    let dictionary = result as! NSDictionary
+                    guard let currentUser = Auth.auth().currentUser else { return }
+                    
+                    switch true {
+                    case error != nil:
+                        print("\(self.className) error!._code \(error!._code)")
+                        self.handleError(error!)
+                        return
+                    case currentUser.email == nil:
+                        self.email = "\(String(describing: dictionary["last_name"]!))\(String(describing: dictionary["first_name"]!))@gmail.com"
+                        print("\(self.className) currentUser.email is NIL")
+                    case dictionary["email"] == nil :
+                        if currentUser.email != nil {
+                            self.email = currentUser.email!
+                        }else {
+                            print("\(self.className) dictionary[email] && currentUser.email is NIL")
+                        }
+                    case self.email == "" :
+                        print("\(self.className) Login Failed. Please Relogin")
+                    default:
+                        print("\(self.className) Default: Login Failed. Please Relogin")
+                        break
+                    }
+                    
+                    print("\(self.className)--------->>>>>> FACEBOOK LOGIN SUCCESSful")
+                    
+                    self.email = dictionary["email"] as! String
+                    self.provKey = dictionary["id"] as! String
+                    self.regToken = insTanceIdToken
+                    self.logProv = "Facebook"
+                    
+                    print("\(self.className) email == \(self.email), provKey == \(self.provKey), regToken == \(self.regToken), logProv == \(self.logProv)")
+                    
+                })
+                
+//                guard let accessToken = FBSDKAccessToken.current() else {
+//                    print("Failed to get access token")
+//                    return
+//                }
+                
+//                let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+                
+                // Perform login by calling Firebase APIs
+//                Auth.auth().signIn(with: credential, completion: { (user, error) in
+//
+//                    print("\(self.className) fbApp triggered")
+//
+//                    if let error = error {
+//                        print("Login error: \(error.localizedDescription)")
+//                        let alertController = UIAlertController(title: "Login Error", message: error.localizedDescription, preferredStyle: .alert)
+//                        let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//                        alertController.addAction(okayAction)
+//                        self.present(alertController, animated: true, completion: nil)
+//
+//                        return
+//                    }
+//
+//                    // Present the main view
+//                    //                if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "MainView") {
+//                    //                    UIApplication.shared.keyWindow?.rootViewController = viewController
+//                    //                    self.dismiss(animated: true, completion: nil)
+//                    //                }
+//
+//
+//                })
+//            }
+            
+        }else {
+            print("\(className) No Internet Connection")
+        }
+        
+    }
     
     
     @objc func signInViaGoogle(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: Error!) {
@@ -328,7 +365,6 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
             }
             print("authResult ---->>> \(String(describing: authResult))")
         }
-        
     }
     
     @objc func registerViaEmail() {

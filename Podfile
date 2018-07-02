@@ -11,6 +11,7 @@ pod 'Firebase/Auth'
 pod 'Firebase/Messaging'
 pod 'Bolts'
 pod 'FBSDKCoreKit'
+pod 'FacebookLogin'
 pod 'FBSDKLoginKit'
 pod 'GoogleSignIn'
 

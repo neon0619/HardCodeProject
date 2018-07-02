@@ -14,7 +14,7 @@ import FirebaseInstanceID
 import FBSDKCoreKit
 import GoogleSignIn
 
-
+var insTanceIdToken = ""
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     let gcmMessageIDKey = "AAAAw6liA9k:APA91bELy6ItMEyjZldjJ2abe31A20mqZuyTzO8UcGGpmIY4gwqD2zRW9yapUFHvEnFuDEfMYWizmbqlVqK94x--uzC-WnXgaBCB0RWFycrHMwYzLAgyZs2M3YwjXWiGafWlIq6rfARPcb-yJKQdtF4--qGmW51OpQ"
     let reverseGeoCoder = ReverseGeoCoder()
 
-    private let className = "AppDelegate: ------->>>"
+    private let className = "--- AppDelegate: ------->>>"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -143,7 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         // ---->>>>> DEPLOYMENT <<<<<-----
         InstanceID.instanceID().setAPNSToken(deviceToken, type: InstanceIDAPNSTokenType.sandbox)
-        InstanceID.instanceID().setAPNSToken(deviceToken, type: InstanceIDAPNSTokenType.prod)
+//        InstanceID.instanceID().setAPNSToken(deviceToken, type: InstanceIDAPNSTokenType.prod)
         
         //        //print("tokenString: \(tokenString)")
         // With swizzling disabled you must set the APNs token here.
@@ -236,12 +236,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         // Connect to FCM since connection may have failed when attempted before having a token.
         connectToFCM { (fcmToken) in
-            // Save Token Globally or in Singleton
+            insTanceIdToken = fcmToken
         }
     }
     
     
     func connectToFCM(postCompleted: @escaping (_ fcmToken: String) -> ()) {
+        
         if ConnectionDetector.isConnectedToNetwork() {
             guard InstanceID.instanceID().token() != nil else {
                 return
@@ -259,6 +260,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                         postCompleted(InstanceID.instanceID().token()!)
                         
                         print("\(self.className)FIRInstanceID.instanceID().token() ----->>> \(InstanceID.instanceID().token()!)")
+                        insTanceIdToken = InstanceID.instanceID().token()!
 
                     }else {
                         print("\(self.className)FIRInstanceID.instanceID().token() ----->>> NIL")
@@ -268,7 +270,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 }
             }
         }else {
-            print("No Internet Connection")
+            print("\(className) No Internet Connection")
         }
 
     }
