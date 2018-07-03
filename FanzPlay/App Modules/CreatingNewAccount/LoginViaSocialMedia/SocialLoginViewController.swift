@@ -18,6 +18,8 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
     
     private let className = "--- SocialLoginViewController: ------->>>"
     
+    var googleUser: GIDGoogleUser = GIDGoogleUser()
+    
     var email = ""
     var provKey = ""
     var regToken = ""
@@ -347,6 +349,8 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
     
     @objc func signInViaGoogle(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: Error!) {
         
+        print("\(className) signInViaGoogle triggered --->>>")
+        
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().signIn()
         
@@ -364,11 +368,23 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
                 return
             }
             print("authResult ---->>> \(String(describing: authResult))")
+            print("\(self.className) ---user-->>> \(user.profile)")
         }
+    }
+    
+    func googleSignIn() {
+    
+        self.email    =  googleUser.profile.email!
+        self.provKey  =  googleUser.userID!
+        self.regToken =  insTanceIdToken
+        self.logProv  =  "Google"
+        
+        GIDSignIn.sharedInstance().signOut()
     }
     
     @objc func registerViaEmail() {
         print("Register Selected")
+        signOut()
     }
     
     

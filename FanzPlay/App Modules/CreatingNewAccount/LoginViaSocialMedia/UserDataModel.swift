@@ -91,7 +91,7 @@ class UserDataModel: NSObject {
 
                     
                     let userData = try JSONDecoder().decode(Status.self, from: data)
-                    print(userData)
+//                    print(userData)
                     
                     //                postCompleted(userData)
                     
