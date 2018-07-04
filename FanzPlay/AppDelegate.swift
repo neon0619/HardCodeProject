@@ -15,6 +15,7 @@ import FBSDKCoreKit
 import GoogleSignIn
 
 var insTanceIdToken = ""
+var googleSignDetails = ["" : ""]
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
@@ -22,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     var window: UIWindow?
     let gcmMessageIDKey = "AAAAw6liA9k:APA91bELy6ItMEyjZldjJ2abe31A20mqZuyTzO8UcGGpmIY4gwqD2zRW9yapUFHvEnFuDEfMYWizmbqlVqK94x--uzC-WnXgaBCB0RWFycrHMwYzLAgyZs2M3YwjXWiGafWlIq6rfARPcb-yJKQdtF4--qGmW51OpQ"
     let reverseGeoCoder = ReverseGeoCoder()
+    
+    var googleUser: GIDGoogleUser = GIDGoogleUser()
 
     private let className = "--- AppDelegate: ------->>>"
 
@@ -47,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             // For iOS 10 data message (sent via FCM)
             Messaging.messaging().remoteMessageDelegate = self
             
-        } else {
+        }else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
@@ -209,15 +212,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-        //...
-        if error != nil {
-            //...
-            return
+        
+        if error == nil {
+            googleUser = user
+            NotificationCenter.default.post(name: NSNotification.Name("GoogleSignInNotif"), object: nil)
         }
         
-        guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-        print("\(className) google credentials --->>> \(credential.provider)")
+//        let parameters = [
+//            "Email": user.profile.email!,
+//            "ProviderKey": user.userID!,
+//            "RegistrationToken": insTanceIdToken,
+//            "ExternalLoginProvider": "Google"
+//        ]
+//        
+//        googleSignDetails = parameters
+        
+//        print("\(className) google user profile --->>> \(parameters)")
+//        DispatchQueue.global().async {
+//            googleSignDetails = parameters
+//        }
+        
+        
+//        guard let authentication = user.authentication else { return }
+//        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+//        print("\(className) google credentials --->>> \(credential.provider)")
+        
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
