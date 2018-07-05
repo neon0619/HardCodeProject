@@ -22,9 +22,9 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
     let delegate: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     var email = ""
-    var provKey = ""
-    var regToken = ""
-    var logProv = ""
+    var providerKey = ""
+    var registrationToken = ""
+    var externalLoginProvider = ""
     
     // UIView for SocialLoginViewController
     lazy var viewController: UIView = {
@@ -268,7 +268,7 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
             case .success( _, _, _):
                 print("\(self.className) Logged in!")
                 self.getFBUserData()
-                fbLoginManager.logOut()
+//                fbLoginManager.logOut()
             }
         }
     }
@@ -277,20 +277,26 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         
         if ConnectionDetector.isConnectedToNetwork() {
             
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
+            guard let accessToken = FBSDKAccessToken.current() else {
+                print("Failed to get access token")
+                return
+            }
+            
+            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            
+            Auth.auth().signIn(with: credential, completion: { (user, error) in
                 
-                let dictionary = result as! NSDictionary
                 guard let currentUser = Auth.auth().currentUser else { return }
-                
+        
                 switch true {
                 case error != nil:
                     print("\(self.className) error!._code \(error!._code)")
                     self.handleError(error!)
                     return
                 case currentUser.email == nil:
-                    self.email = "\(String(describing: dictionary["last_name"]!))\(String(describing: dictionary["first_name"]!))@gmail.com"
+                    self.email = "\(String(describing: user!.displayName!.replacingOccurrences(of: " ", with: "")))@gmail.com"
                     print("\(self.className) currentUser.email is NIL")
-                case dictionary["email"] == nil :
+                case user!.email == nil :
                     if currentUser.email != nil {
                         self.email = currentUser.email!
                     }else {
@@ -303,21 +309,20 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
                     break
                 }
                 
-                print("\(self.className)--------->>>>>> FACEBOOK LOGIN SUCCESSful")
+                print("\(self.className)--------->>>>>> FACEBOOK LOGIN SUCCESSFUL")
                 
-                self.email = dictionary["email"] as! String
-                self.provKey = dictionary["id"] as! String
-                self.regToken = insTanceIdToken
-                self.logProv = "Facebook"
+                self.email = user!.email!
+                self.providerKey = user!.uid
+                self.registrationToken = insTanceIdToken
+                self.externalLoginProvider = "Facebook"
                 
-                print("\(self.className) email == \(self.email), provKey == \(self.provKey), regToken == \(self.regToken), logProv == \(self.logProv)")
+                print("\(self.className) Email == \(self.email), ProviderKey == \(self.providerKey), RegistrationToken == \(self.registrationToken), ExternalLoginProvider == \(self.externalLoginProvider)")
                 
             })
             
         }else {
             print("\(className) No Internet Connection")
         }
-        
     }
     
     
@@ -333,13 +338,13 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         googleUser = delegate.googleUser
         
         email = googleUser.profile.email
-        provKey = googleUser.userID
-        regToken = insTanceIdToken
-        logProv = "Google"
+        providerKey = googleUser.userID
+        registrationToken = insTanceIdToken
+        externalLoginProvider = "Google"
         
         externalLogin()
         
-        GIDSignIn.sharedInstance().signOut()
+//        GIDSignIn.sharedInstance().signOut()
         
     }
     
@@ -349,10 +354,11 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         
         let parameters = [
             "Email": self.email,
-            "ProviderKey": self.provKey,
-            "RegistrationToken": self.regToken,
-            "ExternalLoginProvider": self.logProv
+            "ProviderKey": self.providerKey,
+            "RegistrationToken": self.registrationToken,
+            "ExternalLoginProvider": self.externalLoginProvider
         ]
+        print("\(self.className)--------->>>>>> GOOGLE LOGIN SUCCESSFUL")
         print("\(className) ----parameters---->>>>> \(parameters)")
     }
     

@@ -73,11 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         // Set MainViewController as RootViewController
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let mainViewController  = SocialLoginViewController() as UIViewController
+        let mainViewController  = SplashViewController() as UIViewController
         self.window?.rootViewController = mainViewController
         self.window?.makeKeyAndVisible()
-        print("\(className) excute splash screen")
-        
         
         return true
     }
@@ -217,25 +215,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             googleUser = user
             NotificationCenter.default.post(name: NSNotification.Name("GoogleSignInNotif"), object: nil)
         }
-        
-//        let parameters = [
-//            "Email": user.profile.email!,
-//            "ProviderKey": user.userID!,
-//            "RegistrationToken": insTanceIdToken,
-//            "ExternalLoginProvider": "Google"
-//        ]
-//        
-//        googleSignDetails = parameters
-        
-//        print("\(className) google user profile --->>> \(parameters)")
-//        DispatchQueue.global().async {
-//            googleSignDetails = parameters
-//        }
-        
-        
-//        guard let authentication = user.authentication else { return }
-//        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-//        print("\(className) google credentials --->>> \(credential.provider)")
         
     }
     
