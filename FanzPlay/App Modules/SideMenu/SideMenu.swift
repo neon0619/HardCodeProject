@@ -10,6 +10,8 @@ import UIKit
 
 class SideMenu: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    private let className = "--- SideMenu: ------->>>"
+    
     // UIView
     lazy var viewController: UIView = {
         let viewView = UIView()
@@ -81,6 +83,19 @@ class SideMenu: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Num: \(indexPath.row)")
         print("Value: \(myArray[indexPath.row])")
+        
+        switch indexPath.row {
+        case 0:
+            break
+        case 1:
+            break
+        case 2:
+            print("\(className) signOut Triggered")
+            NotificationCenter.default.post(name: NSNotification.Name("triggerSignOut"), object: nil)
+        default:
+            break
+        }
+        
     }
     
     // Table
@@ -94,6 +109,5 @@ class SideMenu: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = UIColor.blue
         return cell
     }
-    
     
 }

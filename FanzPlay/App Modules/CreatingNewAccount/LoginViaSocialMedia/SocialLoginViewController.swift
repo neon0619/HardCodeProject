@@ -242,10 +242,9 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", email: "", providerKey: "", registrationToken: "", loginProvider: "")
         
         GIDSignIn.sharedInstance().uiDelegate = self
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(googleSignIn),
-                                               name: NSNotification.Name("GoogleSignInNotif"),
-                                               object: nil)
+        
+        // GoogleSignIn Observer
+        NotificationCenter.default.addObserver(self, selector: #selector(googleSignIn), name: NSNotification.Name("GoogleSignInNotif"), object: nil)
         
     }
     
@@ -358,13 +357,14 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
             "RegistrationToken": self.registrationToken,
             "ExternalLoginProvider": self.externalLoginProvider
         ]
-        print("\(self.className)--------->>>>>> GOOGLE LOGIN SUCCESSFUL")
+        print("\(self.className) GOOGLE LOGIN SUCCESSFUL")
         print("\(className) ----parameters---->>>>> \(parameters)")
+        showMainVC()
     }
     
     @objc func registerViaEmail() {
         print("Register Selected")
-        signOut()
+        
     }
     
     
@@ -372,16 +372,13 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         print("Signin Selected")
     }
     
-    
-    
-    @objc func signOut() {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
+    @objc func showMainVC() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            print("\(self.className) MainViewController called")
+            let svc = MainViewController()
+            svc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            self.present(svc, animated: true, completion: nil)
         }
-        
     }
 
 

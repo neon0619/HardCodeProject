@@ -21,6 +21,8 @@ var googleSignDetails = ["" : ""]
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
+    let userDefault = UserDefaults.standard
+    
     let gcmMessageIDKey = "AAAAw6liA9k:APA91bELy6ItMEyjZldjJ2abe31A20mqZuyTzO8UcGGpmIY4gwqD2zRW9yapUFHvEnFuDEfMYWizmbqlVqK94x--uzC-WnXgaBCB0RWFycrHMwYzLAgyZs2M3YwjXWiGafWlIq6rfARPcb-yJKQdtF4--qGmW51OpQ"
     let reverseGeoCoder = ReverseGeoCoder()
     
@@ -30,6 +32,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Initial install set the value for Settings AutoUpdate
+        if userDefault.string(forKey: "isInitialLogin") != nil {
+            print("\(className) FANZPLAY is INSTALLED: \(String(describing: userDefault.value(forKey: "isInitialLogin")!))")
+        }else{
+            // Nothing stored in NSUserDefaults yet. Set a value.
+            userDefault.setValue("installed", forKey: "isInitialLogin")
+            print("\(className) INITIAL INSTALL FANZPLAY: \(String(describing: userDefault.value(forKey: "isInitialLogin")!))")
+        }
  
         FirebaseApp.configure()
         NotificationCenter.default.addObserver(self, selector: #selector(tokenRefreshNotification(_:)), name: .InstanceIDTokenRefresh, object: nil)
@@ -187,7 +198,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         }
         return nil
     }
-
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

@@ -15,7 +15,12 @@ class SplashViewController: UIViewController {
     
 //    let reverseGeoCoder = ReverseGeoCoder()
     
+    let userDefault = UserDefaults.standard.value(forKey: "isInitialLogin") as! String
+    
     let className = "------SplashViewController---->>>"
+    
+    var googleUser: GIDGoogleUser = GIDGoogleUser()
+    let delegate: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     
     // UIView for MainViewController
@@ -43,13 +48,32 @@ class SplashViewController: UIViewController {
         
         // Get Reverse GeoLocation on the background
 //        reverseGeoCoder.getReverseGeoLoc()
-    
+        
+        if userDefault != "installed" {
+            print("\(className) app initial install")
+            self.showSocialLoginVC()
+        }else {
+            print("\(className) app already installed")
+            NotificationCenter.default.addObserver(self, selector: #selector(checkCurrentUser), name: NSNotification.Name("GoogleSignInNotif"), object: nil)
+            checkCurrentUser()
+        }
     }
     
+    @objc func checkCurrentUser() {
+        print("\(className) checkCurrentUser() called")
+        
+        googleUser = delegate.googleUser
+        
+        if googleUser.userID != nil {
+            print("\(self.className) User was already logged in \(googleUser.userID)")
+            self.showMainVC()
+        }else {
+            print("\(self.className) User was NOT logged in \(googleUser.userID)")
+            self.showSocialLoginVC()
+        }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        print("\(self.className) ViewDidLoad")
         
 //        if FBSDKAccessToken.current() != nil {
 //            print("\(className) Already LoggedIn ")
@@ -65,23 +89,38 @@ class SplashViewController: UIViewController {
         GIDSignIn.sharedInstance().signInSilently()
         Auth.auth().addStateDidChangeListener { (auth, user) in
             
-            if user != nil {
-                if UserDefaults.standard.string(forKey: "uid") != nil && Auth.auth().currentUser != nil {
-                    print("\(self.className) user Already signedIn --->> \(String(describing: user))")
-                    self.showMainVC()
+//            if user != nil {
+//                if UserDefaults.standard.string(forKey: "uid") != nil && Auth.auth().currentUser != nil {
+//                    print("\(self.className) user Already signedIn --->> \(String(describing: user))")
+//                    self.showMainVC()
+//
+//                }else {
+//                    print("\(self.className) No user is signed in --->> \(String(describing: user))")
+//                    self.showSocialLoginVC()
+//                }
+//
+//            }else {
+//                print("\(self.className) user is NIL")
+//                self.showSocialLoginVC()
+//            }
+//
+//            UserDefaults.standard.setValue(user?.uid, forKeyPath: "uid")
+//            print("\(self.className) userDefault \(UserDefaults.standard.setValue(user?.uid, forKeyPath: "uid"))")
+            
+//            Auth.auth().addStateDidChangeListener { (auth, user) in
+//                if user != nil {
+//                    if UserDefaults.standard.string(forKey: "uid") != nil && Auth.auth().currentUser != nil {
+//                        //User was already logged in
+//                        print("\(self.className) User was already logged in")
+//                        self.showMainVC()
+//                    }
+//                    UserDefaults.standard.setValue(user?.uid, forKeyPath: "uid")
+//                }else {
+//                    print("\(self.className) User was NOT logged in")
+//                    self.showSocialLoginVC()
+//                }
+//            }
 
-                }else {
-                    print("\(self.className) No user is signed in --->> \(String(describing: user))")
-                    self.showSocialLoginVC()
-                }
-                
-            }else {
-                print("\(self.className) user is NIL")
-                self.showSocialLoginVC()
-            }
-
-            UserDefaults.standard.setValue(user?.uid, forKeyPath: "uid")
-            print("\(self.className) userDefault \(UserDefaults.standard.setValue(user?.uid, forKeyPath: "uid"))")
             
 //            if let user = user {
 //                // User is signed in. Show home screen

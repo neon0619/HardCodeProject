@@ -7,9 +7,15 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FacebookLogin
+import GoogleSignIn
 
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, GIDSignInUIDelegate {
+    
+    private let className = "--- MainViewController: ------->>>"
+    
     
     let sideMenu = SideMenu()
     var isSideMenuOpen = false
@@ -66,6 +72,10 @@ class MainViewController: UIViewController {
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideSideMenu))
         viewController.addGestureRecognizer(tap)
+        
+        // SignOut Observer
+        NotificationCenter.default.addObserver(self, selector: #selector(signOut), name: NSNotification.Name("triggerSignOut"), object: nil)
+        
     }
     
     
@@ -109,6 +119,30 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
+    @objc func signOut() {
+        
+        hideSideMenu()
+        
+        print("\(className) signOut called")
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
+        GIDSignIn.sharedInstance().signOut()
+        LoginManager().logOut()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            let svc = SocialLoginViewController()
+            svc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            self.present(svc, animated: true, completion: nil)
+        }
+        
+    }
+
     
 }
 
