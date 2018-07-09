@@ -55,7 +55,7 @@ class UserDataModel: NSObject {
     
     var userDetails = Dictionary<String, Any>()
     
-    func postMethod(url: String, params: [String : AnyObject]?) {
+    func postMethod(url: String, params: [String : AnyObject]?, postCompleted: @escaping (_ status: String) -> ()) {
     
         guard let url = URL(string: url) else { return }
         var request = URLRequest(url: url)
@@ -82,6 +82,7 @@ class UserDataModel: NSObject {
                     
                     let userData = try JSONDecoder().decode(Status.self, from: data)
                     print("\(self.className) userData == \(userData)")
+                    postCompleted(userData.Status!)
         
                 } catch let jsonErr {
                     print("Error Serializing Json", jsonErr)

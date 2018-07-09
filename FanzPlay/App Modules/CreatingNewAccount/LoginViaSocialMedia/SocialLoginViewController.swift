@@ -220,6 +220,7 @@ class SocialLoginViewController: UIViewController {
         view.addSubview(btnSignInUnderLine)
     }
     
+    let activityIndicator = ActivityIndicator()
     let userDataModel = UserDataModel()
     
     // ViewDidLoad
@@ -233,10 +234,22 @@ class SocialLoginViewController: UIViewController {
     }
     
     @objc func signInViaFacebook() {
+        
         logInViaFaceBook.faceBookLogin { (fbParams) in
+            self.activityIndicator.show(uiView: self)
             
-            self.userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", params: fbParams)
+            self.userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", params: fbParams, postCompleted: { (status) in
+                
+                if status == "Success" {
+                    print("\(self.className) status \(status)")
+                    self.activityIndicator.stop(uiView: self)
+                }else {
+                    print("\(self.className) status not yet done")
+                }
+                
+            })
         }
+        
     }
     
     @objc func signInViaGoogle() {

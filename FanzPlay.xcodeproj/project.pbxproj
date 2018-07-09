@@ -10,6 +10,7 @@
 		130CC8EFFFD2EDC40E8779FF /* Pods_FanzPlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 741F16C525B114493EEAC6BE /* Pods_FanzPlay.framework */; };
 		6A3431B320D782FB00DD5DB1 /* ReverseGeoCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3431B220D782FB00DD5DB1 /* ReverseGeoCoder.swift */; };
 		6A6C70FE20F30347005F8744 /* SignUpUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C70FD20F30347005F8744 /* SignUpUIView.swift */; };
+		6A6C710020F34BDB005F8744 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C70FF20F34BDB005F8744 /* ActivityIndicator.swift */; };
 		6A7609A620E5BD8700A61AC8 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7609A520E5BD8700A61AC8 /* UserDataModel.swift */; };
 		6A80869620D8A10000DD0F2D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A80869320D8A10000DD0F2D /* UIColor.swift */; };
 		6A80869720D8A10000DD0F2D /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A80869520D8A10000DD0F2D /* DeviceType.swift */; };
@@ -37,6 +38,7 @@
 		586E6BA7C179753604FB3AE6 /* Pods-FanzPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FanzPlay.release.xcconfig"; path = "Pods/Target Support Files/Pods-FanzPlay/Pods-FanzPlay.release.xcconfig"; sourceTree = "<group>"; };
 		6A3431B220D782FB00DD5DB1 /* ReverseGeoCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseGeoCoder.swift; sourceTree = "<group>"; };
 		6A6C70FD20F30347005F8744 /* SignUpUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUIView.swift; sourceTree = "<group>"; };
+		6A6C70FF20F34BDB005F8744 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		6A7609A520E5BD8700A61AC8 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
 		6A80869320D8A10000DD0F2D /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		6A80869420D8A10000DD0F2D /* CommonCryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonCryptor.h; sourceTree = "<group>"; };
@@ -88,15 +90,24 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		6A80868E20D89F7E00DD0F2D /* Helpers */ = {
+		6A6C710120F35170005F8744 /* ActivityIndicator.swift */ = {
+			isa = PBXGroup;
+			children = (
+				6A6C70FF20F34BDB005F8744 /* ActivityIndicator.swift */,
+			);
+			path = ActivityIndicator.swift;
+			sourceTree = "<group>";
+		};
+		6A80868E20D89F7E00DD0F2D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				6A80869C20D8A29F00DD0F2D /* ReverseGeoCoder */,
 				6A80869F20D8A2E000DD0F2D /* ConnectionDetector */,
 				6A85CB1B20E35AFA00106766 /* AlertDialogs */,
+				6A6C710120F35170005F8744 /* ActivityIndicator.swift */,
 				6A8A7D1A20E4D645006C5C09 /* Parser */,
 			);
-			path = Helpers;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		6A80868F20D89FA200DD0F2D /* App Modules */ = {
@@ -194,7 +205,7 @@
 				6A85CB1C20E37D7000106766 /* FanzPlay.entitlements */,
 				6A8D68B020CF5A83005DFFE9 /* AppDelegate.swift */,
 				6A80868F20D89FA200DD0F2D /* App Modules */,
-				6A80868E20D89F7E00DD0F2D /* Helpers */,
+				6A80868E20D89F7E00DD0F2D /* Utils */,
 				6A80869220D8A0E000DD0F2D /* Extensions */,
 				6AB0FAFD20DA270A00DC65A8 /* Constants */,
 				6A8D68B720CF5A85005DFFE9 /* Assets.xcassets */,
@@ -449,6 +460,7 @@
 				6A80869720D8A10000DD0F2D /* DeviceType.swift in Sources */,
 				6AB0FAF420DA082600DC65A8 /* SocialLoginUIView.swift in Sources */,
 				6A80869E20D8A2CB00DD0F2D /* ConnectionDetector.swift in Sources */,
+				6A6C710020F34BDB005F8744 /* ActivityIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
