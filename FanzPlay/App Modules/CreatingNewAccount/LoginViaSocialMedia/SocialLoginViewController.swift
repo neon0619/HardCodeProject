@@ -7,24 +7,14 @@
 //
 
 import UIKit
-import FacebookLogin
-import FBSDKLoginKit
-import Firebase
-import FirebaseAuth
 import GoogleSignIn
-import FirebaseMessaging
 
-class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
+class SocialLoginViewController: UIViewController {
     
     private let className = "--- SocialLoginViewController: ------->>>"
     
-    var googleUser: GIDGoogleUser = GIDGoogleUser()
-    let delegate: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    
-    var email = ""
-    var providerKey = ""
-    var registrationToken = ""
-    var externalLoginProvider = ""
+    let logInViaFaceBook = LoginViaFacebook()
+    let logInViaGoogle = LoginViaGoogle()
     
     // UIView for SocialLoginViewController
     lazy var viewController: UIView = {
@@ -156,7 +146,6 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         return imageView
     }()
     
-    
     // Get the Arrays of CGRect per Device Type
     @objc func sortUIByDeviceType() {
         switch true {
@@ -238,129 +227,22 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         super.viewDidLoad()
         initiateSubViews()
         sortUIByDeviceType()
-        
-        userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", email: "", providerKey: "", registrationToken: "", loginProvider: "")
-        
-        GIDSignIn.sharedInstance().uiDelegate = self
-        
-        // GoogleSignIn Observer
-        NotificationCenter.default.addObserver(self, selector: #selector(googleSignIn), name: NSNotification.Name("GoogleSignInNotif"), object: nil)
+    
+        logInViaGoogle.initiateGoogleLogin(uiViewController: self)
         
     }
     
     @objc func signInViaFacebook() {
-        
-        print("\(className) signInViaFacebook triggered")
-        
-        let fbLoginManager : LoginManager = LoginManager()
-        
-        if let currentAccessToken = FBSDKAccessToken.current(), currentAccessToken.appID != FBSDKSettings.appID() {
-            fbLoginManager.logOut()
-        }
-        
-        fbLoginManager.logIn(readPermissions: [.publicProfile], viewController : self) { loginResult in
-            switch loginResult {
-            case .failed(let error):
-                print("\(self.className) error --->> \(error)")
-            case .cancelled:
-                print("\(self.className) User cancelled login.")
-            case .success( _, _, _):
-                print("\(self.className) Logged in!")
-                self.getFBUserData()
-//                fbLoginManager.logOut()
-            }
+        logInViaFaceBook.faceBookLogin { (fbParams) in
+            
+            self.userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", params: fbParams)
         }
     }
-    
-    func getFBUserData() {
-        
-        if ConnectionDetector.isConnectedToNetwork() {
-            
-            guard let accessToken = FBSDKAccessToken.current() else {
-                print("Failed to get access token")
-                return
-            }
-            
-            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
-            
-            Auth.auth().signIn(with: credential, completion: { (user, error) in
-                
-                guard let currentUser = Auth.auth().currentUser else { return }
-        
-                switch true {
-                case error != nil:
-                    print("\(self.className) error!._code \(error!._code)")
-                    self.handleError(error!)
-                    return
-                case currentUser.email == nil:
-                    self.email = "\(String(describing: user!.displayName!.replacingOccurrences(of: " ", with: "")))@gmail.com"
-                    print("\(self.className) currentUser.email is NIL")
-                case user!.email == nil :
-                    if currentUser.email != nil {
-                        self.email = currentUser.email!
-                    }else {
-                        print("\(self.className) dictionary[email] && currentUser.email is NIL")
-                    }
-                case self.email == "" :
-                    print("\(self.className) Login Failed. Please Relogin")
-                default:
-                    print("\(self.className) Default: Login Failed. Please Relogin")
-                    break
-                }
-                
-                print("\(self.className)--------->>>>>> FACEBOOK LOGIN SUCCESSFUL")
-                
-                self.email = user!.email!
-                self.providerKey = user!.uid
-                self.registrationToken = insTanceIdToken
-                self.externalLoginProvider = "Facebook"
-                
-                print("\(self.className) Email == \(self.email), ProviderKey == \(self.providerKey), RegistrationToken == \(self.registrationToken), ExternalLoginProvider == \(self.externalLoginProvider)")
-                
-            })
-            
-        }else {
-            print("\(className) No Internet Connection")
-        }
-    }
-    
     
     @objc func signInViaGoogle() {
-        
-        print("\(className) signInViaGoogleBtn triggered --->>>")
-        
         GIDSignIn.sharedInstance().signIn()
     }
     
-    @objc func googleSignIn() {
-        
-        googleUser = delegate.googleUser
-        
-        email = googleUser.profile.email
-        providerKey = googleUser.userID
-        registrationToken = insTanceIdToken
-        externalLoginProvider = "Google"
-        
-        externalLogin()
-        
-//        GIDSignIn.sharedInstance().signOut()
-        
-    }
-    
-    func externalLogin() {
-        
-        // Put Progress Dialog Here
-        
-        let parameters = [
-            "Email": self.email,
-            "ProviderKey": self.providerKey,
-            "RegistrationToken": self.registrationToken,
-            "ExternalLoginProvider": self.externalLoginProvider
-        ]
-        print("\(self.className) GOOGLE LOGIN SUCCESSFUL")
-        print("\(className) ----parameters---->>>>> \(parameters)")
-        showMainVC()
-    }
     
     @objc func registerViaEmail() {
         print("Register Selected")
@@ -372,14 +254,6 @@ class SocialLoginViewController: UIViewController, GIDSignInUIDelegate {
         print("Signin Selected")
     }
     
-    @objc func showMainVC() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-            print("\(self.className) MainViewController called")
-            let svc = MainViewController()
-            svc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-            self.present(svc, animated: true, completion: nil)
-        }
-    }
-
+   
 
 }

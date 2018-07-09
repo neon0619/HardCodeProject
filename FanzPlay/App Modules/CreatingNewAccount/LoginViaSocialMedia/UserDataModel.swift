@@ -51,22 +51,19 @@ struct Preferences: Decodable {
 
 class UserDataModel: NSObject {
     
+    private let className = "--- UserDataModel: ------->>>"
+    
     var userDetails = Dictionary<String, Any>()
     
-    func postMethod(url: String, email: String, providerKey: String, registrationToken: String, loginProvider: String) {
-        
+    func postMethod(url: String, params: [String : AnyObject]?) {
+    
         guard let url = URL(string: url) else { return }
         var request = URLRequest(url: url)
-        
-        let sEmail = "azura_0619@yahoo.com"
-        let sProvKey = "10207874858668769"
-        let sRegsKey = "cCBsWGivINo:APA91bHIfvbJNeLNfOF82gyfpZ37MDrJF8kBhsypViCCxcKDXu2ClY0munvsuuC3H0qu8a4zGYMKuOT1PNV5DQfWlXL-VekuNXv0YR2FUPLF2_ue-KBYUPoLe5oD9MDQuG478awP9FEHsQ0UO_afqbREuWa-wcnnaQ"
-        let sLogProv = "Facebook"
         
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let query = "{\"Email\": \"\(sEmail)\",\"ProviderKey\": \"\(sProvKey)\",\"RegistrationToken\": \"\(sRegsKey)\",\"ExternalLoginProvider\": \"\(sLogProv)\"}"
+        let query = "{\"Email\": \"\(String(describing: params!["Email"]))\",\"ProviderKey\": \"\(String(describing: params!["ProviderKey"]))\",\"RegistrationToken\": \"\(String(describing: params!["RegistrationToken"]))\",\"ExternalLoginProvider\": \"\(String(describing: params!["ExternalLoginProvider"]))\"}"
         
         request.httpBody = query.data(using: String.Encoding.utf8)
         
@@ -83,18 +80,9 @@ class UserDataModel: NSObject {
                 
                 do {
                     
-//                    // link in description for video on JSONDecoder
-//                    let decoder = JSONDecoder()
-//                    // Swift 4.1
-//                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                    self.courses = try decoder.decode([Course].self, from: data)
-
-                    
                     let userData = try JSONDecoder().decode(Status.self, from: data)
-//                    print(userData)
-                    
-                    //                postCompleted(userData)
-                    
+                    print("\(self.className) userData == \(userData)")
+        
                 } catch let jsonErr {
                     print("Error Serializing Json", jsonErr)
                 }

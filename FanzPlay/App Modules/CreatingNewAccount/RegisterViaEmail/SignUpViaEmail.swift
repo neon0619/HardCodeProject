@@ -10,8 +10,6 @@ import UIKit
 
 class SignUpViaEmail: UIViewController {
     
-    
-    
     // UIView for NewAccountViewController
     lazy var viewController: UIView = {
         let viewView = UIView()
@@ -19,10 +17,8 @@ class SignUpViaEmail: UIViewController {
         viewView.backgroundColor = UIColor.darkGray
         return viewView
     }()
-    
-    
-    
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

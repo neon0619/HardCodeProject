@@ -85,7 +85,6 @@ class SplashViewController: UIViewController {
 //            }
 //        }
         
-        
         GIDSignIn.sharedInstance().signInSilently()
         Auth.auth().addStateDidChangeListener { (auth, user) in
             
