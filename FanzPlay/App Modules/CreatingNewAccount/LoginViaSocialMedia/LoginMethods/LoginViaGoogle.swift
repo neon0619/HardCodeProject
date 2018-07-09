@@ -16,6 +16,7 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
     
     private let className = "--- LoginViaGoogle: ------->>>"
     
+    let activityIndicator = ActivityIndicator()
     var googleUser: GIDGoogleUser = GIDGoogleUser()
     let delegate: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
@@ -67,22 +68,10 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
         ]
         print("\(self.className) GOOGLE LOGIN SUCCESSFUL")
         print("\(className) ----parameters---->>>>> \(parameters)")
+        self.activityIndicator.stop(uiView: self)
         showMainVC(uiVC: selectedViewController)
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     

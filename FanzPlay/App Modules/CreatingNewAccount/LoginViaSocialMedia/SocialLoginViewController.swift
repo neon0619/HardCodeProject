@@ -221,6 +221,7 @@ class SocialLoginViewController: UIViewController {
     }
     
     let activityIndicator = ActivityIndicator()
+    let segue = Segue()
     let userDataModel = UserDataModel()
     
     // ViewDidLoad
@@ -243,6 +244,7 @@ class SocialLoginViewController: UIViewController {
                 if status == "Success" {
                     print("\(self.className) status \(status)")
                     self.activityIndicator.stop(uiView: self)
+                    self.showMainVC()
                 }else {
                     print("\(self.className) status not yet done")
                 }
@@ -254,6 +256,7 @@ class SocialLoginViewController: UIViewController {
     
     @objc func signInViaGoogle() {
         GIDSignIn.sharedInstance().signIn()
+        self.activityIndicator.show(uiView: self)
     }
     
     
@@ -266,6 +269,18 @@ class SocialLoginViewController: UIViewController {
     @objc func signInViaEmail() {
         print("Signin Selected")
     }
+    
+    
+    func showMainVC() {
+        // put viewController Params on postCompleted Google Signin
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            print("\(self.className) MainViewController called")
+            let svc = MainViewController()
+            svc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            self.present(svc, animated: true, completion: nil)
+        }
+    }
+
     
    
 
