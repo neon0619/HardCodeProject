@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		130CC8EFFFD2EDC40E8779FF /* Pods_FanzPlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 741F16C525B114493EEAC6BE /* Pods_FanzPlay.framework */; };
 		6A3431B320D782FB00DD5DB1 /* ReverseGeoCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3431B220D782FB00DD5DB1 /* ReverseGeoCoder.swift */; };
+		6A52AFFD20F4A2A7001F4EB2 /* TermsAndPrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A52AFFC20F4A2A7001F4EB2 /* TermsAndPrivacyViewController.swift */; };
+		6A52B00020F4A500001F4EB2 /* Fanzplay_PRIVACY_POLICY.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6A52AFFF20F4A500001F4EB2 /* Fanzplay_PRIVACY_POLICY.pdf */; };
 		6A6C70FE20F30347005F8744 /* SignUpUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C70FD20F30347005F8744 /* SignUpUIView.swift */; };
 		6A6C710020F34BDB005F8744 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C70FF20F34BDB005F8744 /* ActivityIndicator.swift */; };
 		6A6C710320F35806005F8744 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C710220F35806005F8744 /* Segue.swift */; };
@@ -38,6 +40,8 @@
 /* Begin PBXFileReference section */
 		586E6BA7C179753604FB3AE6 /* Pods-FanzPlay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FanzPlay.release.xcconfig"; path = "Pods/Target Support Files/Pods-FanzPlay/Pods-FanzPlay.release.xcconfig"; sourceTree = "<group>"; };
 		6A3431B220D782FB00DD5DB1 /* ReverseGeoCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseGeoCoder.swift; sourceTree = "<group>"; };
+		6A52AFFC20F4A2A7001F4EB2 /* TermsAndPrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyViewController.swift; sourceTree = "<group>"; };
+		6A52AFFF20F4A500001F4EB2 /* Fanzplay_PRIVACY_POLICY.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Fanzplay_PRIVACY_POLICY.pdf; sourceTree = "<group>"; };
 		6A6C70FD20F30347005F8744 /* SignUpUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUIView.swift; sourceTree = "<group>"; };
 		6A6C70FF20F34BDB005F8744 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		6A6C710220F35806005F8744 /* Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
@@ -90,6 +94,15 @@
 				586E6BA7C179753604FB3AE6 /* Pods-FanzPlay.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		6A52AFFE20F4A322001F4EB2 /* TermsAndPrivacyPolicy */ = {
+			isa = PBXGroup;
+			children = (
+				6A52AFFF20F4A500001F4EB2 /* Fanzplay_PRIVACY_POLICY.pdf */,
+				6A52AFFC20F4A2A7001F4EB2 /* TermsAndPrivacyViewController.swift */,
+			);
+			path = TermsAndPrivacyPolicy;
 			sourceTree = "<group>";
 		};
 		6A6C710120F35170005F8744 /* ActivityIndicator.swift */ = {
@@ -172,6 +185,7 @@
 			children = (
 				6A8143B120D100C700C7E20D /* MainViewUIView.swift */,
 				6A8D68B220CF5A84005DFFE9 /* MainViewController.swift */,
+				6A52AFFE20F4A322001F4EB2 /* TermsAndPrivacyPolicy */,
 			);
 			path = MainViewController;
 			sourceTree = "<group>";
@@ -363,6 +377,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A52B00020F4A500001F4EB2 /* Fanzplay_PRIVACY_POLICY.pdf in Resources */,
 				6A8D68B820CF5A85005DFFE9 /* Assets.xcassets in Resources */,
 				6A8086A620D8DBAF00DD0F2D /* LaunchScreen.storyboard in Resources */,
 				6AE3020820E0971200603C35 /* GoogleService-Info.plist in Resources */,
@@ -457,6 +472,7 @@
 				6A8D68B120CF5A83005DFFE9 /* AppDelegate.swift in Sources */,
 				6AB0FAE920D9FF3800DC65A8 /* LoginViaFacebook.swift in Sources */,
 				6A7609A620E5BD8700A61AC8 /* UserDataModel.swift in Sources */,
+				6A52AFFD20F4A2A7001F4EB2 /* TermsAndPrivacyViewController.swift in Sources */,
 				6A8A7D1920E4D62C006C5C09 /* ApiParser.swift in Sources */,
 				6AB0FAFC20DA26B400DC65A8 /* Constants.swift in Sources */,
 				6A8BB32B20E4775500594EE0 /* ErrorHandler.swift in Sources */,

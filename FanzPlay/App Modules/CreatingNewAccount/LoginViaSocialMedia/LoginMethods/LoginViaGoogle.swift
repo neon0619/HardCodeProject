@@ -17,6 +17,8 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
     private let className = "--- LoginViaGoogle: ------->>>"
     
     let activityIndicator = ActivityIndicator()
+    let userDataModel = UserDataModel()
+
     var googleUser: GIDGoogleUser = GIDGoogleUser()
     let delegate: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
@@ -58,8 +60,6 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
     
     func externalLogin() {
         
-        // Put Progress Dialog Here
-        
         let parameters = [
             "Email": self.email,
             "ProviderKey": self.providerKey,
@@ -68,12 +68,21 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
         ]
         print("\(self.className) GOOGLE LOGIN SUCCESSFUL")
         print("\(className) ----parameters---->>>>> \(parameters)")
-        self.activityIndicator.stop(uiView: self)
-        showMainVC(uiVC: selectedViewController)
+        
+        
+        userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", params: parameters as [String : AnyObject]) { (status) in
+            
+            if status == "Success" {
+                print("\(self.className) status \(status)")
+                self.activityIndicator.stop(uiView: self)
+                self.showMainVC(uiVC: self.selectedViewController)
+            }else {
+                print("\(self.className) status not yet done")
+            }
+            
+        }
         
     }
-    
-    
     
     @objc func showMainVC(uiVC: UIViewController) {
         // put viewController Params on postCompleted Google Signin

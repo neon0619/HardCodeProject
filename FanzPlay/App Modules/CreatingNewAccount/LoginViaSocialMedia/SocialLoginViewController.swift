@@ -15,6 +15,8 @@ class SocialLoginViewController: UIViewController {
     
     let logInViaFaceBook = LoginViaFacebook()
     let logInViaGoogle = LoginViaGoogle()
+    let activityIndicator = ActivityIndicator()
+    let userDataModel = UserDataModel()
     
     // UIView for SocialLoginViewController
     lazy var viewController: UIView = {
@@ -220,9 +222,6 @@ class SocialLoginViewController: UIViewController {
         view.addSubview(btnSignInUnderLine)
     }
     
-    let activityIndicator = ActivityIndicator()
-    let segue = Segue()
-    let userDataModel = UserDataModel()
     
     // ViewDidLoad
     override func viewDidLoad() {
@@ -236,11 +235,10 @@ class SocialLoginViewController: UIViewController {
     
     @objc func signInViaFacebook() {
         
+        self.activityIndicator.show(uiView: self)
+        
         logInViaFaceBook.faceBookLogin { (fbParams) in
-            self.activityIndicator.show(uiView: self)
-            
             self.userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", params: fbParams, postCompleted: { (status) in
-                
                 if status == "Success" {
                     print("\(self.className) status \(status)")
                     self.activityIndicator.stop(uiView: self)

@@ -10,12 +10,13 @@ import UIKit
 import FacebookLogin
 import FBSDKLoginKit
 import Firebase
-//import FirebaseAuth
-//import FirebaseMessaging
+
 
 class LoginViaFacebook: UIViewController {
     
     private let className = "--- LoginViaFacebook: ------->>>"
+    
+    let activityIndicator = ActivityIndicator()
     
     var email = ""
     var providerKey = ""
@@ -40,6 +41,7 @@ class LoginViaFacebook: UIViewController {
                 print("\(self.className) error --->> \(error)")
             case .cancelled:
                 print("\(self.className) User cancelled login.")
+                self.activityIndicator.stop(uiView: self)
             case .success( _, _, _):
                 print("\(self.className) Logged in!")
                 self.getFBUserData(postCompleted: { (fbUserData) in
@@ -96,7 +98,6 @@ class LoginViaFacebook: UIViewController {
                 ]
                 
                 postCompleted(parameters as [String : AnyObject])
-                
                 
             })
             

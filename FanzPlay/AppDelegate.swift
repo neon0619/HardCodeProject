@@ -15,7 +15,6 @@ import FBSDKCoreKit
 import GoogleSignIn
 
 var insTanceIdToken = ""
-var googleSignDetails = ["" : ""]
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
@@ -84,7 +83,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         // Set MainViewController as RootViewController
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let mainViewController  = SplashViewController() as UIViewController
+//        let mainViewController  = SplashViewController() as UIViewController
+        let mainViewController  = MainViewController() as UIViewController
+
         self.window?.rootViewController = mainViewController
         self.window?.makeKeyAndVisible()
         
