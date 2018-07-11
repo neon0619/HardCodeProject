@@ -18,9 +18,18 @@ struct VIEW_CONFIG_EXLOGINVIEW {
         static let cgRectArrays: [String: Array<CGRect>]  = ["fpLogo": [CGRect(x: 87, y: 50, width: 162.0, height: 162.0)],
                                                              
                                                             
-                                                             "btnPlay": [CGRect(x: 27, y: 258, width: 264, height: 42)],
+                                                             "btnPlay": [CGRect(x: 27, y: 243, width: 264, height: 44)],
                                                              "btnGameRules": [CGRect(x: 80, y: 510, width: 160, height: 21)],
                                                              "btnTermsPolicy": [CGRect(x: 80, y: 532, width: 160, height: 16)],
+                                                             
+                                                             "viewRewards": [CGRect(x: 27.5, y: 305, width: 120, height: 109),
+                                                                             CGRect(x: 33, y: 16, width: 55, height: 55),
+                                                                             CGRect(x: 28, y: 81, width: 64, height: 14)],
+                                                             
+                                                             "viewStats": [CGRect(x: 171.5, y: 305, width: 120, height: 109),
+                                                                           CGRect(x: 33, y: 16, width: 55, height: 55),
+                                                                           CGRect(x: 30, y: 81, width: 60, height: 14)],
+
                                                              
                                                              "gameRules": [CGRect(x: 10, y: 57, width: 300, height: 480),
                                                                            CGRect(x: 10, y: 29, width: 130, height: 24),
@@ -102,10 +111,10 @@ struct VIEW_CONFIG_EXLOGINVIEW {
                                                              "btnGameRules": [CGRect(x: 80, y: 510, width: 160, height: 21)],
                                                              "btnTermsPolicy": [CGRect(x: 80, y: 532, width: 160, height: 16)],
                                                              
-                                                             "gameRules": [CGRect(x: 20, y: 75, width: 375, height: 575),
-                                                                           CGRect(x: 29, y: 41, width: 130, height: 24),
-                                                                           CGRect(x: 346, y: 2, width: 27, height: 27),
-                                                                           CGRect(x: 26, y: 77, width: 320, height: 470)]
+                                                             "gameRules": [CGRect(x: 20, y: 125, width: 336, height: 545),
+                                                                           CGRect(x: 10, y: 29, width: 130, height: 24),
+                                                                           CGRect(x: 307, y: 2, width: 27, height: 27),
+                                                                           CGRect(x: 7, y: 61, width: 320, height: 475)]
             
             
             

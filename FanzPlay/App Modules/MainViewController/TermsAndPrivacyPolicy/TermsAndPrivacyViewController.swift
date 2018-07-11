@@ -33,7 +33,7 @@ class TermsAndPrivacyViewController: UIViewController {
         let btn = UIButton(type: .custom)
         btn.frame = CGRect(x: 8, y: 20, width: 30, height: 50)
         btn.setImage(UIImage(named: "btn_white_back_arrow"), for: .normal)
-        btn.imageView?.contentMode = .scaleAspectFill
+        btn.imageView?.contentMode = .scaleToFill
         btn.addTarget(self, action: #selector(dismissTerms), for: .touchUpInside)
         return btn
     }()

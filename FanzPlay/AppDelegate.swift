@@ -83,8 +83,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         // Set MainViewController as RootViewController
         self.window = UIWindow(frame: UIScreen.main.bounds)
-//        let mainViewController  = SplashViewController() as UIViewController
-        let mainViewController  = MainViewController() as UIViewController
+        let mainViewController  = SplashViewController() as UIViewController
+//        let mainViewController  = MainViewController() as UIViewController
 
         self.window?.rootViewController = mainViewController
         self.window?.makeKeyAndVisible()

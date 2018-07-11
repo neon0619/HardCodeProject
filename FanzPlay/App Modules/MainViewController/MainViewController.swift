@@ -133,9 +133,72 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         let txtView = UITextView()
         txtView.backgroundColor = UIColor.clear
         txtView.textColor = UIColor.white
-        txtView.sizeToFit()
+        txtView.font = UIFont(name: "Helvetica", size: 11)
+        txtView.isEditable = false
+        txtView.isSelectable = false
         txtView.text = "Rival Mode :\n\nThe Fanzplay® Rival mode is played either live (on-location) or remotely (in your home or anywhere) over a number of rounds set by the admin.\nThe user must select the team they want to play for.\nFor the on-location game play, the Jumbotron will display details that Fanzplay® game is about to commence.\nFor the remote players, upon selecting the team to play, event details such as event name, location, date, and time can be seen on the device screen. They will be notified that a game is about to start.\nPoints are added to the team with correct answer and is calculated each round.\nThe winner is determined upon the computed average score of the correct answer over the number of users playing on each round.\n\nNote: The winner is determined by the number questions correctly answered by all the users playing on particular team.\n\n\nElimination Game:\nThe Fanzplay® Elimination mode is played live on the event location. It is triggered when the device detects that the user is on the radius of event location.\nThe user must answer number of questions set by the admin correctly to proceed to another round. If fail to do so, he/she will be eliminated from the game.\nWinners are determined by a points system, which is based from the number of questions correctly answered and the speed of answering those questions.\n\n* Apple, Apple Trademark and Apple Logo is NOT affiliated with any contest nor rewards within the FanzPlay app."
         return txtView
+    }()
+    
+    
+    // UIView for Wrapper Rewards
+    lazy var viewRewards: UIView = {
+        let viewView = UIView()
+        viewView.backgroundColor = UIColor.clear
+        viewView.layer.borderWidth = 2.0
+        viewView.layer.borderColor = UIColor.gray.cgColor
+        viewView.layer.cornerRadius = 7.0
+        return viewView
+    }()
+    
+    // UIIMageView for Wrapper Rewards
+    lazy var imgRewardsIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icon_rewards")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    // UILabel for Wrapper Rewards
+    lazy var lblRewards: UILabel = {
+        let lblLabel = UILabel()
+        lblLabel.text = "Rewards"
+        lblLabel.textColor = UIColor.white
+        lblLabel.textAlignment = .center
+        lblLabel.font = UIFont(name: "HelveticaNeue", size: 15)
+
+        return lblLabel
+    }()
+
+    
+
+    
+    // UIView for Wrapper Stats
+    lazy var viewStats: UIView = {
+        let viewView = UIView()
+        viewView.backgroundColor = UIColor.clear
+        viewView.layer.borderWidth = 2.0
+        viewView.layer.borderColor = UIColor.gray.cgColor
+        viewView.layer.cornerRadius = 7.0
+        return viewView
+    }()
+    
+    // UIIMageView for Wrapper Stats
+    lazy var imgStatsIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icon_stats")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    // UILabel for Wrapper Stats
+    lazy var lblStats: UILabel = {
+        let lblLabel = UILabel()
+        lblLabel.text = "Stats"
+        lblLabel.textColor = UIColor.white
+        lblLabel.textAlignment = .center
+        lblLabel.font = UIFont(name: "HelveticaNeue", size: 15)
+        return lblLabel
     }()
     
     
@@ -156,6 +219,14 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         
         // SignOut Observer
         NotificationCenter.default.addObserver(self, selector: #selector(signOut), name: NSNotification.Name("triggerSignOut"), object: nil)
+        
+        // Open RewardsViewController
+        let rewardsGesture = UITapGestureRecognizer(target: self, action: #selector(showRewardsVC))
+        viewRewards.addGestureRecognizer(rewardsGesture)
+        
+        // Open StatsViewController
+        let statsGesture = UITapGestureRecognizer(target: self, action: #selector(showStatsVC))
+        viewStats.addGestureRecognizer(statsGesture)
         
         print("\(className) view == \(self.view.frame.width)")
         print("\(className) rect/2 == \((self.view.frame.width / 2))")
@@ -200,10 +271,19 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         btnGameRules.frame          = loginRects["btnGameRules"]![0]
         btnTermPolicy.frame         = loginRects["btnTermsPolicy"]![0]
         
+        viewRewards.frame           = loginRects["viewRewards"]![0]
+        imgRewardsIcon.frame        = loginRects["viewRewards"]![1]
+        lblRewards.frame            = loginRects["viewRewards"]![2]
+        
+        viewStats.frame             = loginRects["viewStats"]![0]
+        imgStatsIcon.frame          = loginRects["viewStats"]![1]
+        lblStats.frame              = loginRects["viewStats"]![2]
+        
         viewGamerules.frame         = loginRects["gameRules"]![0]
         lblGameRules.frame          = loginRects["gameRules"]![1]
         btnClosePopUp.frame         = loginRects["gameRules"]![2]
         txtVRulesContent.frame      = loginRects["gameRules"]![3]
+        
         
     }
     
@@ -217,6 +297,14 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         view.addSubview(fpLogo)
         view.addSubview(btnPlay)
         
+        view.addSubview(viewRewards)
+        viewRewards.addSubview(imgRewardsIcon)
+        viewRewards.addSubview(lblRewards)
+        
+        view.addSubview(viewStats)
+        viewStats.addSubview(imgStatsIcon)
+        viewStats.addSubview(lblStats)
+        
         view.addSubview(viewGamerules)
         viewGamerules.addSubview(lblGameRules)
         viewGamerules.addSubview(btnClosePopUp)
@@ -229,6 +317,7 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         view.addSubview(sideMenu.viewController)
         view.addSubview(sideMenu.sideMenuTable)
         view.addSubview(sideMenu.titleLbl)
+        
         
     }
     
@@ -263,11 +352,21 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
     }
     
     
+    @objc func showRewardsVC() {
+        print("\(className) Open Rewards VC")
+    }
+    
+    @objc func showStatsVC() {
+        print("\(className) Open Stats VC")
+    }
+    
+    
     @objc func openGameRules() {
         UIView.animate(withDuration: 0.30) {
             self.view.bringSubview(toFront: self.viewGamerules)
             self.shadowImage.isHidden = false
             self.viewGamerules.isHidden = false
+            self.menuBtn.isUserInteractionEnabled = false
         }
     }
     
@@ -275,6 +374,7 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         UIView.animate(withDuration: 0.30) {
             self.shadowImage.isHidden = true
             self.viewGamerules.isHidden = true
+            self.menuBtn.isUserInteractionEnabled = true
         }
     }
     
