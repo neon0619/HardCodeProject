@@ -46,6 +46,8 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
     
     @objc func googleSignIn() {
         
+        self.activityIndicator.show(uiView: selectedViewController)
+        
         googleUser = delegate.googleUser
         
         email = googleUser.profile.email
@@ -55,7 +57,6 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
         
         externalLogin()
         GIDSignIn.sharedInstance().signOut()
-        
     }
     
     func externalLogin() {
@@ -69,7 +70,6 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
         print("\(self.className) GOOGLE LOGIN SUCCESSFUL")
         print("\(className) ----parameters---->>>>> \(parameters)")
         
-        
         userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", params: parameters as [String : AnyObject]) { (status) in
             
             if status == "Success" {
@@ -79,9 +79,7 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
             }else {
                 print("\(self.className) status not yet done")
             }
-            
         }
-        
     }
     
     @objc func showMainVC(uiVC: UIViewController) {

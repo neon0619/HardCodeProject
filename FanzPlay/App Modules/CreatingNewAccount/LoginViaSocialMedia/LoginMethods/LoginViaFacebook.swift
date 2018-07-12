@@ -27,7 +27,7 @@ class LoginViaFacebook: UIViewController {
         super.viewDidLoad()
     }
     
-    func faceBookLogin(postCompleted: @escaping (_ fbParams: [String : AnyObject]?) -> ()) {
+    func faceBookLogin(postCompleted: @escaping (_ fbStatus: String, _ fbParams: [String : AnyObject]?) -> ()) {
         
         let fbLoginManager : LoginManager = LoginManager()
         
@@ -39,13 +39,14 @@ class LoginViaFacebook: UIViewController {
             switch loginResult {
             case .failed(let error):
                 print("\(self.className) error --->> \(error)")
+                postCompleted("Failed", [String : AnyObject]())
             case .cancelled:
                 print("\(self.className) User cancelled login.")
-                self.activityIndicator.stop(uiView: self)
+                postCompleted("Cancelled", [String : AnyObject]())
             case .success( _, _, _):
                 print("\(self.className) Logged in!")
                 self.getFBUserData(postCompleted: { (fbUserData) in
-                    postCompleted(fbUserData)
+                    postCompleted("Success", fbUserData)
                 })
                 fbLoginManager.logOut()
             }

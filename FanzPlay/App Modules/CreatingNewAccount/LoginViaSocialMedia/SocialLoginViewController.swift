@@ -237,24 +237,38 @@ class SocialLoginViewController: UIViewController {
         
         self.activityIndicator.show(uiView: self)
         
-        logInViaFaceBook.faceBookLogin { (fbParams) in
-            self.userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", params: fbParams, postCompleted: { (status) in
-                if status == "Success" {
-                    print("\(self.className) status \(status)")
-                    self.activityIndicator.stop(uiView: self)
-                    self.showMainVC()
-                }else {
-                    print("\(self.className) status not yet done")
-                }
-                
-            })
+        logInViaFaceBook.faceBookLogin { (fbStatus, fbParams) in
+            
+            print("\(self.className) \(fbStatus)")
+            
+            switch fbStatus {
+            case "Failed":
+                self.activityIndicator.stop(uiView: self)
+                // Show AlertView for Failed
+            case "Cancelled":
+                self.activityIndicator.stop(uiView: self)
+            case "Success":
+                print("\(self.className) run Method")
+                self.userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", params: fbParams, postCompleted: { (status) in
+                    if status == "Success" {
+                        print("\(self.className) status \(status)")
+                        self.activityIndicator.stop(uiView: self)
+                        self.showMainVC()
+                    }else {
+                        print("\(self.className) status not yet done")
+                    }
+                })
+            default:
+                break
+            }
+            
         }
         
     }
     
     @objc func signInViaGoogle() {
         GIDSignIn.sharedInstance().signIn()
-        self.activityIndicator.show(uiView: self)
+        
     }
     
     
@@ -265,7 +279,7 @@ class SocialLoginViewController: UIViewController {
     
     
     @objc func signInViaEmail() {
-        print("Signin Selected")
+        showSignInVC()
     }
     
     
@@ -278,6 +292,19 @@ class SocialLoginViewController: UIViewController {
             self.present(svc, animated: true, completion: nil)
         }
     }
+    
+    func showSignInVC() {
+        // put viewController Params on postCompleted Google Signin
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            print("\(self.className) LoginViewController called")
+            let svc = LoginViewController()
+            svc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            self.present(svc, animated: true, completion: nil)
+        }
+    }
+    
+    
+    
 
     
    
