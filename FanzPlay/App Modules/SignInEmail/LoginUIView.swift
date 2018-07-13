@@ -25,29 +25,29 @@ struct VIEW_CONFIG_SIGNINEMAILVIEW {
                                                              
                                                              "signInWith": [CGRect(x: 35, y: 212, width: 250, height: 34)],
                                                              
-                                                             "lblError": [CGRect(x: 35, y: 247, width: 250, height: 0)], // lblError
+                                                             "lblError": [CGRect(x: 35, y: 247, width: 250, height: 0)],           // lblError
+            
+        
+                                                             "emailAddView": [CGRect(x: 0, y: 242, width: 320, height: 60),        // EmailAddress View
+                                                                              CGRect(x: 43, y: 23, width: 24, height: 24),         // imgEmail Icon
+                                                                              CGRect(x: 75,  y: 15, width: 210, height: 40),       // emailTxtFld
+                                                                              CGRect(x: 268, y: 17, width: 16, height: 40),        // imgErrorIcon
+                                                                              CGRect(x: 35, y: 55, width: 250, height: 1)],        // emailLineView
+            
+                                                             "passWordView": [CGRect(x: 0, y: 302, width: 320, height: 60),        // PassWord View
+                                                                              CGRect(x: 43, y: 23, width: 24, height: 24),         // imgPassIcon
+                                                                              CGRect(x: 75,  y: 15, width: 210, height: 40),       // passwordTxtFld
+                                                                              CGRect(x: 268, y: 17, width: 16, height: 40),        // showPassContainerView
+                                                                              CGRect(x: 35, y: 55, width: 250, height: 1)],        // passWordLineView
+            
+                                                             "forgotPassword": [CGRect(x: 35, y: 362, width: 250, height: 30)],
             
             
-            "emailAddView": [CGRect(x: 0, y: 242, width: 320, height: 41),          // EmailAddress View
-                CGRect(x: 43, y: 23, width: 24, height: 24),         // imgEmail Icon
-                CGRect(x: 75,  y: 15, width: 210, height: 40),       // emailTxtFld
-                CGRect(x: 259, y: 15, width: 26, height: 40),        // errIconView
-                CGRect(x: 35, y: 55, width: 250, height: 1)],        // emailLineView
-            
-            "passWordView": [CGRect(x: 0, y: 302, width: 320, height: 128),         // PassWord View
-                CGRect(x: 43, y: 23, width: 24, height: 24),         // imgPassIcon
-                CGRect(x: 75,  y: 15, width: 210, height: 40),       // passwordTxtFld
-                CGRect(x: 259, y: 15, width: 26, height: 40),        // showPassContainerView
-                CGRect(x: 35, y: 55, width: 250, height: 1)],        // passWordLineView
-            
-            "forgotPassword": [CGRect(x: 35, y: 362, width: 250, height: 30)],
+                                                             "btnLogin":       [CGRect(x: 35, y: 420, width: 250, height: 45)],
             
             
-            "btnLogin":       [CGRect(x: 35, y: 420, width: 250, height: 45)],
-            
-            
-            "btnCreateRegister":  [CGRect(x: 68,  y: 518, width: 184, height: 50),
-                                   CGRect(x: 195.8, y: 552, width: 45.5, height: 0.8)]]   // registerBotLine
+                                                             "btnCreateRegister":  [CGRect(x: 68,  y: 518, width: 184, height: 50),
+                                                                                    CGRect(x: 207, y: 552, width: 45.5, height: 0.8)]]   // registerBotLine
         
         
         
@@ -256,26 +256,26 @@ struct VIEW_CONFIG_SIGNINEMAILVIEW {
                                                              "lblError":          [CGRect(x: 159 + 95, y: 477 + 150, width: 518, height: 0)],       // lblError
             
             
-            "emailAddView":      [CGRect(x: 38 + 95,  y: 476 + 150, width: 768, height: 56),        // EmailAddress View
-                CGRect(x: 126, y: 23, width: 24, height: 24),          // imgEmail Icon
-                CGRect(x: 158, y: 15, width: 424, height: 40),         // emailTxtFld
-                CGRect(x: 609, y: 15, width: 26, height: 40),          // errIconView
-                CGRect(x: 118, y: 55, width: 518, height: 1)],         // emailLineView
+                                                             "emailAddView":      [CGRect(x: 38 + 95,  y: 476 + 150, width: 768, height: 56),        // EmailAddress View
+                                                                                   CGRect(x: 126, y: 23, width: 24, height: 24),          // imgEmail Icon
+                                                                                   CGRect(x: 158, y: 15, width: 424, height: 40),         // emailTxtFld
+                                                                                   CGRect(x: 609, y: 15, width: 26, height: 40),          // errIconView
+                                                                                   CGRect(x: 118, y: 55, width: 518, height: 1)],         // emailLineView
             
-            "passWordView":      [CGRect(x: 38 + 95,   y: 546 + 150, width: 768, height: 56),        // PassWord View
-                CGRect(x: 126, y: 23, width: 24, height: 24),          // imgPassIcon
-                CGRect(x: 158, y: 15, width: 424, height: 40),         // passwordTxtFld
-                CGRect(x: 609, y: 15, width: 26, height: 40),          // showPassContainerView
-                CGRect(x: 118, y: 55, width: 518, height: 1)],         // passWordLineView
+                                                             "passWordView":      [CGRect(x: 38 + 95,   y: 546 + 150, width: 768, height: 56),        // PassWord View
+                                                                                   CGRect(x: 126, y: 23, width: 24, height: 24),          // imgPassIcon
+                                                                                   CGRect(x: 158, y: 15, width: 424, height: 40),         // passwordTxtFld
+                                                                                   CGRect(x: 609, y: 15, width: 26, height: 40),          // showPassContainerView
+                                                                                   CGRect(x: 118, y: 55, width: 518, height: 1)],         // passWordLineView
             
-            "forgotPassword":    [CGRect(x: 159 + 95, y: 606 + 150, width: 518, height: 30)],
-            
-            
-            "btnLogin":          [CGRect(x: 159 + 95, y: 790 + 150, width: 518, height: 60)],
+                                                             "forgotPassword":    [CGRect(x: 159 + 95, y: 606 + 150, width: 518, height: 30)],
             
             
-            "btnCreateRegister": [CGRect(x: 234 + 33 + 95, y: 978 + 150, width: 300, height: 50),
-                                  CGRect(x: 474 + 95, y: 1018 + 150, width: 70, height: 1)]]         // registerBotLine
+                                                             "btnLogin":          [CGRect(x: 159 + 95, y: 790 + 150, width: 518, height: 60)],
+            
+            
+                                                             "btnCreateRegister": [CGRect(x: 234 + 33 + 95, y: 978 + 150, width: 300, height: 50),
+                                                                                   CGRect(x: 474 + 95, y: 1018 + 150, width: 70, height: 1)]]         // registerBotLine
     }
     
     

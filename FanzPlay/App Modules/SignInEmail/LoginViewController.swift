@@ -68,7 +68,6 @@ class LoginViewController: UIViewController {
     // UIView for EmailAddressWrapper
     lazy var viewEmailAddress: UIView  = {
         let viewView = UIView()
-        viewView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
         return viewView
     }()
     
@@ -76,10 +75,124 @@ class LoginViewController: UIViewController {
     // UIIMageView for imgEmailIcon
     lazy var imgEmailIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "fp_logo")
+        imageView.image = UIImage(named: "icon_email")
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
+    
+    // UITextField for emailAddress
+    lazy var txtEmailAdd: UITextField = {
+        let txtField = UITextField()
+        txtField.placeholder = "Email Address"
+        txtField.text = "Email Address"
+        txtField.textColor = UIColor.white
+        txtField.font = UIFont(name: "HelveticaNeue-ThinItalic", size: 15)
+        return txtField
+    }()
+    
+    
+    // UIIMageView for imgEmailIcon
+    lazy var imgEmailErrorIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icon_error")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    
+    // UIView for EmailLineView
+    lazy var viewLineEmail: UIView  = {
+        let viewView = UIView()
+        viewView.backgroundColor = UIColor.white
+        return viewView
+    }()
+    
+    
+    // UIView for PasswordWrapper
+    lazy var viewPassword: UIView  = {
+        let viewView = UIView()
+        return viewView
+    }()
+    
+    
+    // UIIMageView for imgPasswordIcon
+    lazy var imgPasswordIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icon_password")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    
+    // UITextField for txtPassword
+    lazy var txtPassword: UITextField = {
+        let txtField = UITextField()
+        txtField.placeholder = "Password"
+        txtField.text = "Password"
+        txtField.textColor = UIColor.white
+        txtField.font = UIFont(name: "HelveticaNeue-ThinItalic", size: 15)
+        return txtField
+    }()
+    
+    
+    // UIIMageView for imgPasswordIcon
+    lazy var imgShowPasswordIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icon_show_password")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    
+    // UIView for ViewPasswordLine
+    lazy var viewLinePassword: UIView  = {
+        let viewView = UIView()
+        viewView.backgroundColor = UIColor.white
+        return viewView
+    }()
+    
+    
+    // UIButton for btnForgotPass
+    lazy var btnForgotPass: UIButton = {
+        let button = UIButton()
+        button.setTitle("Forgot Password", for: .normal)
+        button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 12)
+        button.contentHorizontalAlignment = .right
+        
+        //        button.addTarget(self, action: #selector(closeGameRules), for: .touchUpInside)
+        return button
+    }()
+
+    // UIButton for btnLogin
+    lazy var btnLogin: UIButton = {
+        let button = UIButton()
+        button.setTitle("LOGIN", for: .normal)
+        button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 20)
+
+        //        button.addTarget(self, action: #selector(closeGameRules), for: .touchUpInside)
+        return button
+    }()
+    
+    
+    // UIButton for btnForgotPass
+    lazy var btnCreateAccount: UIButton = {
+        let button = UIButton()
+        button.setTitle("Create and account? Register", for: .normal)
+        button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 12)
+        button.contentHorizontalAlignment = .right
+        
+        //        button.addTarget(self, action: #selector(closeGameRules), for: .touchUpInside)
+        return button
+    }()
+    
+    // UIView for viewCreateAccountLine
+    lazy var viewCreateAccountLine: UIView  = {
+        let viewView = UIView()
+        viewView.backgroundColor = UIColor.white
+        return viewView
+    }()
+
     
     // Get the Arrays of CGRect per Device Type
     @objc func sortUIByDeviceType() {
@@ -118,25 +231,25 @@ class LoginViewController: UIViewController {
         fpLogo.frame              = loginRects["fpLogo"]![0]
         
         lblSignInWithEmail.frame  = loginRects["signInWith"]![0]
-        lblError.frame           = loginRects["lblError"]![0]
+        lblError.frame            = loginRects["lblError"]![0]
         
         viewEmailAddress.frame       = loginRects["emailAddView"]![0]
-//        imgEmailIcon.frame           = loginRects["emailAddView"]![1]
-//        emailTxtFld.frame            = loginRects["emailAddView"]![2]
-//        errIconView.frame            = loginRects["emailAddView"]![3]
-//        emailLineView.frame          = loginRects["emailAddView"]![4]
-//
-//        passwordView.frame           = loginRects["passWordView"]![0]
-//        imgPassIcon.frame            = loginRects["passWordView"]![1]
-//        passwordTxtFld.frame         = loginRects["passWordView"]![2]
-//        showPassContainerView.frame  = loginRects["passWordView"]![3]
-//        passLineView.frame           = loginRects["passWordView"]![4]
-//
-//        forgotPassword.frame         = loginRects["forgotPassword"]![0]
-//        btnLogin.frame               = loginRects["btnLogin"]![0]
-//
-//        btnCreateRegister.frame      = loginRects["btnCreateRegister"]![0]
-//        registerBotLine.frame        = loginRects["btnCreateRegister"]![1]
+        imgEmailIcon.frame           = loginRects["emailAddView"]![1]
+        txtEmailAdd.frame            = loginRects["emailAddView"]![2]
+        imgEmailErrorIcon.frame      = loginRects["emailAddView"]![3]
+        viewLineEmail.frame          = loginRects["emailAddView"]![4]
+
+        viewPassword.frame           = loginRects["passWordView"]![0]
+        imgPasswordIcon.frame        = loginRects["passWordView"]![1]
+        txtPassword.frame            = loginRects["passWordView"]![2]
+        imgShowPasswordIcon.frame    = loginRects["passWordView"]![3]
+        viewLinePassword.frame       = loginRects["passWordView"]![4]
+
+        btnForgotPass.frame         = loginRects["forgotPassword"]![0]
+        btnLogin.frame               = loginRects["btnLogin"]![0]
+
+        btnCreateAccount.frame      = loginRects["btnCreateRegister"]![0]
+        viewCreateAccountLine.frame        = loginRects["btnCreateRegister"]![1]
         
 
     }
@@ -149,8 +262,24 @@ class LoginViewController: UIViewController {
         view.addSubview(fpLogo)
         view.addSubview(btnBack)
         view.addSubview(lblSignInWithEmail)
+        
         view.addSubview(viewEmailAddress)
-
+        viewEmailAddress.addSubview(imgEmailIcon)
+        viewEmailAddress.addSubview(txtEmailAdd)
+        viewEmailAddress.addSubview(viewLineEmail)
+        viewEmailAddress.addSubview(imgEmailErrorIcon)
+        
+        view.addSubview(viewPassword)
+        viewPassword.addSubview(imgPasswordIcon)
+        viewPassword.addSubview(txtPassword)
+        viewPassword.addSubview(viewLinePassword)
+        viewPassword.addSubview(imgShowPasswordIcon)
+        
+        view.addSubview(btnForgotPass)
+        view.addSubview(btnLogin)
+        view.addSubview(btnCreateAccount)
+        view.addSubview(viewCreateAccountLine)
+    
     }
     
     override func viewDidLoad() {
