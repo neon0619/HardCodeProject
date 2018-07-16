@@ -15,6 +15,8 @@ import FBSDKCoreKit
 import GoogleSignIn
 
 var insTanceIdToken = ""
+var userDetails = Status.self
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {

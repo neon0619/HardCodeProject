@@ -10,7 +10,9 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    private let className = "--- LoginViewController: ------->>>"
     
+    // UIView for Base ViewController
     lazy var viewController: UIView = {
         let viewView = UIView()
         viewView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
@@ -85,9 +87,9 @@ class LoginViewController: UIViewController {
     lazy var txtEmailAdd: UITextField = {
         let txtField = UITextField()
         txtField.placeholder = "Email Address"
-        txtField.text = "Email Address"
+        txtField.placeholderColor(UIColor(hex: 0xFFFFFF))
         txtField.textColor = UIColor.white
-        txtField.font = UIFont(name: "HelveticaNeue-ThinItalic", size: 15)
+        txtField.font = UIFont(name: "HelveticaNeue-LightItalic", size: 13)
         return txtField
     }()
     
@@ -128,10 +130,11 @@ class LoginViewController: UIViewController {
     // UITextField for txtPassword
     lazy var txtPassword: UITextField = {
         let txtField = UITextField()
-        txtField.placeholder = "Password"
-        txtField.text = "Password"
+        txtField.placeholder = "Mobile Number/Password"
+        txtField.placeholderColor(UIColor(hex: 0xFFFFFF))
         txtField.textColor = UIColor.white
-        txtField.font = UIFont(name: "HelveticaNeue-ThinItalic", size: 15)
+        txtField.isSecureTextEntry = true
+        txtField.font = UIFont(name: "HelveticaNeue-LightItalic", size: 13)
         return txtField
     }()
     
@@ -163,6 +166,7 @@ class LoginViewController: UIViewController {
         //        button.addTarget(self, action: #selector(closeGameRules), for: .touchUpInside)
         return button
     }()
+    
 
     // UIButton for btnLogin
     lazy var btnLogin: UIButton = {
@@ -170,28 +174,32 @@ class LoginViewController: UIViewController {
         button.setTitle("LOGIN", for: .normal)
         button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 20)
 
-        //        button.addTarget(self, action: #selector(closeGameRules), for: .touchUpInside)
+        button.addTarget(self, action: #selector(loginMethod), for: .touchUpInside)
         return button
     }()
     
     
-    // UIButton for btnForgotPass
+    // UIButton for btnCreateAccount
     lazy var btnCreateAccount: UIButton = {
         let button = UIButton()
         button.setTitle("Create and account? Register", for: .normal)
         button.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 12)
         button.contentHorizontalAlignment = .right
         
-        //        button.addTarget(self, action: #selector(closeGameRules), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(closeGameRules), for: .touchUpInside)
         return button
     }()
     
+    
     // UIView for viewCreateAccountLine
-    lazy var viewCreateAccountLine: UIView  = {
+    lazy var viewCreateAccountLine: UIView = {
         let viewView = UIView()
         viewView.backgroundColor = UIColor.white
         return viewView
     }()
+    
+    
+    var passView = false
 
     
     // Get the Arrays of CGRect per Device Type
@@ -226,12 +234,11 @@ class LoginViewController: UIViewController {
     
     // Configure frames method
     func uiConfigSocialLoginSetup(loginRects: [String: Array<CGRect>]) {
+        btnBack.frame                = loginRects["btnBack"]![0]
+        fpLogo.frame                 = loginRects["fpLogo"]![0]
         
-        btnBack.frame             = loginRects["btnBack"]![0]
-        fpLogo.frame              = loginRects["fpLogo"]![0]
-        
-        lblSignInWithEmail.frame  = loginRects["signInWith"]![0]
-        lblError.frame            = loginRects["lblError"]![0]
+        lblSignInWithEmail.frame     = loginRects["signInWith"]![0]
+        lblError.frame               = loginRects["lblError"]![0]
         
         viewEmailAddress.frame       = loginRects["emailAddView"]![0]
         imgEmailIcon.frame           = loginRects["emailAddView"]![1]
@@ -245,13 +252,11 @@ class LoginViewController: UIViewController {
         imgShowPasswordIcon.frame    = loginRects["passWordView"]![3]
         viewLinePassword.frame       = loginRects["passWordView"]![4]
 
-        btnForgotPass.frame         = loginRects["forgotPassword"]![0]
+        btnForgotPass.frame          = loginRects["forgotPassword"]![0]
         btnLogin.frame               = loginRects["btnLogin"]![0]
 
-        btnCreateAccount.frame      = loginRects["btnCreateRegister"]![0]
-        viewCreateAccountLine.frame        = loginRects["btnCreateRegister"]![1]
-        
-
+        btnCreateAccount.frame       = loginRects["btnCreateRegister"]![0]
+        viewCreateAccountLine.frame  = loginRects["btnCreateRegister"]![1]
     }
     
     
@@ -282,15 +287,57 @@ class LoginViewController: UIViewController {
     
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initiateSubViews()
         sortUIByDeviceType()
+        
+        // Tap anywhere on the screen to dismiss keyboard
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        // Adding UITapGestureRecognizer on imgShowPasswordIcon to call showHidePassword method
+        let showPassGesture = UITapGestureRecognizer(target: self, action: #selector(showHidePassword))
+        imgShowPasswordIcon.isUserInteractionEnabled = true
+        imgShowPasswordIcon.addGestureRecognizer(showPassGesture)
+    }
+    
+
+    @objc func showHidePassword() {
+        if passView == true {
+            txtPassword.isSecureTextEntry = false
+            imgShowPasswordIcon.image = UIImage(named: "icon_hide_password_filled")
+            passView = false
+        } else {
+            txtPassword.isSecureTextEntry = true
+            imgShowPasswordIcon.image = UIImage(named: "icon_show_password")
+            passView = true
+        }
+    }
+    
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     
     @objc func dismissLogin() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @objc func loginMethod() {
+        print("\(className) loginMethod triggered")
+        
+//        let parameters = [
+//            "Email":
+//            "MobileNumber": password! as String,
+//            "RegistrationToken": GlobalPushyToken
+//        ]
+        
+//        print("\(className) UserData == \()")
+        
     }
 
 }
