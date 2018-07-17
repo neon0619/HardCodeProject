@@ -8,8 +8,20 @@
 
 import UIKit
 
+struct GlobalUrl {
+    
+    static let baseUrl = "http://54.68.7.104:88/"
+    
+    struct api {
+        static let registerExternal = "api/user/registerexternal"
+    }
+    
+    static let registerExternal = "api/user/registerexternal"
+}
+
 struct Constants {
     
+
     struct SCREENSIZE {
         static let SCREEN_WIDTH         = UIScreen.main.bounds.size.width
         static let SCREEN_HEIGHT        = UIScreen.main.bounds.size.height

@@ -16,7 +16,7 @@ class SocialLoginViewController: UIViewController {
     let logInViaFaceBook = LoginViaFacebook()
     let logInViaGoogle = LoginViaGoogle()
     let activityIndicator = ActivityIndicator()
-    let userDataModel = UserDataModel()
+    let apiParser = ApiParser()
     
     // UIView for SocialLoginViewController
     lazy var viewController: UIView = {
@@ -249,15 +249,22 @@ class SocialLoginViewController: UIViewController {
                 self.activityIndicator.stop(uiView: self)
             case "Success":
                 print("\(self.className) run Method")
-                self.userDataModel.postMethod(url: "http://54.68.7.104:88/api/user/registerexternal", params: fbParams, postCompleted: { (status) in
-                    if status == "Success" {
-                        print("\(self.className) status \(status)")
+                
+                self.apiParser.postResults(url: GlobalUrl.baseUrl, params: fbParams, myStruct: Status.self, postCompleted: { (postStruct) in
+                    
+                    if postStruct.Status == "Success" {
+                        print("\(self.className) status \(postStruct.Status!)")
                         self.activityIndicator.stop(uiView: self)
                         self.showMainVC()
+                    
+                        print("\(self.className) userDetails \(userDetails)")
+                        
                     }else {
                         print("\(self.className) status not yet done")
                     }
+
                 })
+
             default:
                 break
             }

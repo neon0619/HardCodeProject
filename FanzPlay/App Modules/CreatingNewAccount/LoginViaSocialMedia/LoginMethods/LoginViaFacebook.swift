@@ -100,6 +100,8 @@ class LoginViaFacebook: UIViewController {
                 
                 postCompleted(parameters as [String : AnyObject])
                 
+                print("\(self.className) fbParams == \(type(of: parameters))")
+                
             })
             
         }else {

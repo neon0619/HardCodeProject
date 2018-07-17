@@ -237,10 +237,10 @@
 			children = (
 				6A85CB1C20E37D7000106766 /* FanzPlay.entitlements */,
 				6A8D68B020CF5A83005DFFE9 /* AppDelegate.swift */,
+				6AB0FAFD20DA270A00DC65A8 /* Constants */,
 				6A80868F20D89FA200DD0F2D /* App Modules */,
 				6A80868E20D89F7E00DD0F2D /* Utils */,
 				6A80869220D8A0E000DD0F2D /* Extensions */,
-				6AB0FAFD20DA270A00DC65A8 /* Constants */,
 				6A8D68B720CF5A85005DFFE9 /* Assets.xcassets */,
 				6A8D68BC20CF5A85005DFFE9 /* Info.plist */,
 				6AE3020720E0971200603C35 /* GoogleService-Info.plist */,
@@ -262,9 +262,9 @@
 		6AB0FAEE20D9FFDD00DC65A8 /* LoginViaSocialMedia */ = {
 			isa = PBXGroup;
 			children = (
+				6A7609A520E5BD8700A61AC8 /* UserDataModel.swift */,
 				6AB0FAF320DA082600DC65A8 /* SocialLoginUIView.swift */,
 				6AB0FAF020DA02D700DC65A8 /* SocialLoginViewController.swift */,
-				6A7609A520E5BD8700A61AC8 /* UserDataModel.swift */,
 				6AB0FAF220DA054900DC65A8 /* LoginMethods */,
 			);
 			path = LoginViaSocialMedia;
