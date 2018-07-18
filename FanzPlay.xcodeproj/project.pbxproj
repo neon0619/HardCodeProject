@@ -253,13 +253,13 @@
 		6AB0FAE720D9FEED00DC65A8 /* CreatingNewAccount */ = {
 			isa = PBXGroup;
 			children = (
-				6AB0FAEE20D9FFDD00DC65A8 /* LoginViaSocialMedia */,
+				6AB0FAEE20D9FFDD00DC65A8 /* RegisterViaSocialMedia */,
 				6AB0FAEF20DA025C00DC65A8 /* RegisterViaEmail */,
 			);
 			path = CreatingNewAccount;
 			sourceTree = "<group>";
 		};
-		6AB0FAEE20D9FFDD00DC65A8 /* LoginViaSocialMedia */ = {
+		6AB0FAEE20D9FFDD00DC65A8 /* RegisterViaSocialMedia */ = {
 			isa = PBXGroup;
 			children = (
 				6A7609A520E5BD8700A61AC8 /* UserDataModel.swift */,
@@ -267,7 +267,7 @@
 				6AB0FAF020DA02D700DC65A8 /* SocialLoginViewController.swift */,
 				6AB0FAF220DA054900DC65A8 /* LoginMethods */,
 			);
-			path = LoginViaSocialMedia;
+			path = RegisterViaSocialMedia;
 			sourceTree = "<group>";
 		};
 		6AB0FAEF20DA025C00DC65A8 /* RegisterViaEmail */ = {

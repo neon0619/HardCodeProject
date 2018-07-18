@@ -19,3 +19,17 @@ extension UITextField {
         self.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedStringKey.foregroundColor : color])
     }
 }
+
+
+//extension String {
+//    func api(path: String) -> String {
+//        return path.appendingFormat("")
+//    }
+//}
+
+extension String {
+    mutating func api(str: String) -> String {
+        self = self + str
+        return str
+    }
+}

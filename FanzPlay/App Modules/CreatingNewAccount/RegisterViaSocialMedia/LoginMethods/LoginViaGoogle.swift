@@ -71,9 +71,14 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
         print("\(className) ----parameters---->>>>> \(parameters)")
         
         
-        apiParser.postResults(url: "http://54.68.7.104:88/api/user/registerexternal", params: parameters as [String : AnyObject], myStruct: Status.self) { (postStruct) in
+        apiParser.request(url: "http://54.68.7.104:88/api/user/registerexternal", method: "POST", params: parameters as [String : AnyObject], myStruct: CurrentUser.self) { (postStruct) in
             if postStruct.Status == "Success" {
                 print("\(self.className) status \(postStruct.Status!)")
+                
+                // Saving Id and Token to NSUserDefault
+                let idToken: [String:String] = ["Id": (postStruct.Data?.Id)!, "Token": (postStruct.Data?.Token)!]
+                UserDefaults.standard.setValue(idToken, forKey: "idToken")
+                
                 self.activityIndicator.stop(uiView: self)
                 self.showMainVC(uiVC: self.selectedViewController)
             }else {

@@ -30,9 +30,12 @@ class ActivityIndicator: UIViewController {
     }
     
     func stop(uiView: UIViewController) {
-        activityIndicator.stopAnimating()
-        UIApplication.shared.endIgnoringInteractionEvents()
-        shadowImage.isHidden = true
+        
+        UIView.animate(withDuration: 0.1) {
+            self.activityIndicator.stopAnimating()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            self.shadowImage.isHidden = true
+        }
     }
     
 }

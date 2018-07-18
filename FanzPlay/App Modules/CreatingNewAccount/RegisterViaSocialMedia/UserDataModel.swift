@@ -8,10 +8,13 @@
 
 import Foundation
 
-struct Status: Decodable {
+struct CurrentUser: Decodable {
     let Status: String?
-    let Data: UserData
+    let Data: UserData?
+    let Message: [String]?
 }
+
+
 
 struct UserData: Decodable {
     let Id: String?

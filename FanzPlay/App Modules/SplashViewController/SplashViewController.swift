@@ -13,15 +13,16 @@ import FirebaseAuth
 
 class SplashViewController: UIViewController {
     
+    let className = "------SplashViewController---->>>"
+    
 //    let reverseGeoCoder = ReverseGeoCoder()
     
     let userDefault = UserDefaults.standard.value(forKey: "isInitialLogin") as! String
-    
-    let className = "------SplashViewController---->>>"
-    
     var googleUser: GIDGoogleUser = GIDGoogleUser()
     let delegate: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
+    let apiParser = ApiParser()
+    let alertDialog = AlertDialogs()
     
     // UIView for MainViewController
     lazy var viewController: UIView = {
@@ -50,27 +51,38 @@ class SplashViewController: UIViewController {
 //        reverseGeoCoder.getReverseGeoLoc()
         
         if userDefault != "installed" {
-            print("\(className) app initial install")
             self.showSocialLoginVC()
         }else {
-            print("\(className) app already installed")
             NotificationCenter.default.addObserver(self, selector: #selector(checkCurrentUser), name: NSNotification.Name("GoogleSignInNotif"), object: nil)
             checkCurrentUser()
         }
     }
     
+    
+    // Check User if Currently LoggedIn
     @objc func checkCurrentUser() {
         print("\(className) checkCurrentUser() called")
-        
-        googleUser = delegate.googleUser
-        
-        if googleUser.userID != nil {
-            print("\(self.className) User was already logged in \(googleUser.userID)")
-            self.showMainVC()
+        if UserDefaults.standard.value(forKey: "idToken") != nil {
+            getCurrentUserDetails()
         }else {
-            print("\(self.className) User was NOT logged in \(googleUser.userID)")
-            self.showSocialLoginVC()
+            showSocialLoginVC()
         }
+    }
+    
+    @objc func getCurrentUserDetails() {
+        
+        apiParser.request(url: baseApiUrl+"api/user/getuserdetails", method: "GET", params: [String : AnyObject](), myStruct: CurrentUser.self) { (postStruct) in
+            
+            if postStruct.Status == "Success" {
+                print("\(self.className) status \(postStruct.Status!)")
+
+                self.showMainVC()
+                
+            }else {
+                self.alertDialog.showAlertDialog(title: "Fetching details failed", msg: "Please try again.", viewController: self)
+            }
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

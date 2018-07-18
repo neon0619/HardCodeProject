@@ -11,6 +11,9 @@ import UIKit
 class LoginViewController: UIViewController {
     
     private let className = "--- LoginViewController: ------->>>"
+    let apiParser = ApiParser()
+    let activityIndicator = ActivityIndicator()
+    let alertDialog = AlertDialogs()
     
     // UIView for Base ViewController
     lazy var viewController: UIView = {
@@ -328,16 +331,47 @@ class LoginViewController: UIViewController {
     
     
     @objc func loginMethod() {
-        print("\(className) loginMethod triggered")
         
-//        let parameters = [
-//            "Email":
-//            "MobileNumber": password! as String,
-//            "RegistrationToken": GlobalPushyToken
-//        ]
+        self.activityIndicator.show(uiView: self)
         
-//        print("\(className) UserData == \()")
+        let parameters = [
+            "Email": txtEmailAdd.text!,
+            "MobileNumber": txtPassword.text!,
+            "RegistrationToken": insTanceIdToken
+        ]
         
+        apiParser.request(url: baseApiUrl+"/api/user/verify", method: "POST", params: parameters as [String : AnyObject], myStruct: CurrentUser.self) { (postStruct) in
+            
+            switch postStruct.Status {
+            case "Success":
+                print("\(self.className) status \(postStruct.Status!)")
+                
+                // Saving Id and Token to NSUserDefault
+                let idToken: [String:String] = ["Id": (postStruct.Data?.Id)!, "Token": (postStruct.Data?.Token)!]
+                UserDefaults.standard.setValue(idToken, forKey: "idToken")
+                
+                self.activityIndicator.stop(uiView: self)
+                self.showMainVC()
+            case "Error":
+                print("\(self.className) errMessage \(postStruct.Message![0])")
+                self.alertDialog.showAlertDialog(title: "FanzPlay", msg: postStruct.Message![0], viewController: self)
+                self.activityIndicator.stop(uiView: self)
+            default:
+                break
+            }
+            
+        }
+    }
+    
+    
+    func showMainVC() {
+        // put viewController Params on postCompleted Google Signin
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            print("\(self.className) MainViewController called")
+            let svc = MainViewController()
+            svc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            self.present(svc, animated: true, completion: nil)
+        }
     }
 
 }

@@ -401,7 +401,8 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         
         GIDSignIn.sharedInstance().signOut()
         LoginManager().logOut()
-        
+        UserDefaults.standard.setValue(nil, forKey: "idToken")
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
             let svc = SocialLoginViewController()
             svc.modalTransitionStyle = .crossDissolve

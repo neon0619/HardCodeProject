@@ -8,19 +8,8 @@
 
 import UIKit
 
-struct GlobalUrl {
-    
-    static let baseUrl = "http://54.68.7.104:88/"
-    
-    struct api {
-        static let registerExternal = "api/user/registerexternal"
-    }
-    
-    static let registerExternal = "api/user/registerexternal"
-}
 
 struct Constants {
-    
 
     struct SCREENSIZE {
         static let SCREEN_WIDTH         = UIScreen.main.bounds.size.width
@@ -28,7 +17,6 @@ struct Constants {
         static let SCREEN_MAX_LENGTH    = max(SCREENSIZE.SCREEN_WIDTH, SCREENSIZE.SCREEN_HEIGHT)
         static let SCREEN_MIN_LENGTH    = min(SCREENSIZE.SCREEN_WIDTH, SCREENSIZE.SCREEN_HEIGHT)
     }
-    
     
     struct DEVICE_TYPE {
         

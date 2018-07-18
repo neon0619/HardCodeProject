@@ -15,14 +15,13 @@ import FBSDKCoreKit
 import GoogleSignIn
 
 var insTanceIdToken = ""
-var userDetails = Status.self
+let baseApiUrl = "http://54.68.7.104:88/"
 
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
-    let userDefault = UserDefaults.standard
     
     let gcmMessageIDKey = "AAAAw6liA9k:APA91bELy6ItMEyjZldjJ2abe31A20mqZuyTzO8UcGGpmIY4gwqD2zRW9yapUFHvEnFuDEfMYWizmbqlVqK94x--uzC-WnXgaBCB0RWFycrHMwYzLAgyZs2M3YwjXWiGafWlIq6rfARPcb-yJKQdtF4--qGmW51OpQ"
     let reverseGeoCoder = ReverseGeoCoder()
@@ -32,15 +31,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     private let className = "--- AppDelegate: ------->>>"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
         
         // Initial install set the value for Settings AutoUpdate
-        if userDefault.string(forKey: "isInitialLogin") != nil {
-            print("\(className) FANZPLAY is INSTALLED: \(String(describing: userDefault.value(forKey: "isInitialLogin")!))")
+        if UserDefaults.standard.string(forKey: "isInitialLogin") != nil {
+            print("\(className) FANZPLAY is already INSTALLED: \(String(describing: UserDefaults.standard.value(forKey: "isInitialLogin")!))")
         }else{
             // Nothing stored in NSUserDefaults yet. Set a value.
-            userDefault.setValue("installed", forKey: "isInitialLogin")
-            print("\(className) INITIAL INSTALL FANZPLAY: \(String(describing: userDefault.value(forKey: "isInitialLogin")!))")
+            UserDefaults.standard.setValue("installed", forKey: "isInitialLogin")
+            print("\(className) Nothing installed yet: \(String(describing: UserDefaults.standard.value(forKey: "isInitialLogin")!))")
         }
  
         FirebaseApp.configure()
@@ -86,7 +85,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         // Set MainViewController as RootViewController
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let mainViewController  = SplashViewController() as UIViewController
-//        let mainViewController  = MainViewController() as UIViewController
 
         self.window?.rootViewController = mainViewController
         self.window?.makeKeyAndVisible()

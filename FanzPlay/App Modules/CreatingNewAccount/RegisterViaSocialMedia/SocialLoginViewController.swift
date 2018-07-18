@@ -17,6 +17,7 @@ class SocialLoginViewController: UIViewController {
     let logInViaGoogle = LoginViaGoogle()
     let activityIndicator = ActivityIndicator()
     let apiParser = ApiParser()
+    let alertDialog = AlertDialogs()
     
     // UIView for SocialLoginViewController
     lazy var viewController: UIView = {
@@ -244,25 +245,27 @@ class SocialLoginViewController: UIViewController {
             switch fbStatus {
             case "Failed":
                 self.activityIndicator.stop(uiView: self)
-                // Show AlertView for Failed
             case "Cancelled":
                 self.activityIndicator.stop(uiView: self)
             case "Success":
                 print("\(self.className) run Method")
-                
-                self.apiParser.postResults(url: GlobalUrl.baseUrl, params: fbParams, myStruct: Status.self, postCompleted: { (postStruct) in
+            
+                self.apiParser.request(url: baseApiUrl+"api/user/registerexternal", method: "POST", params: fbParams, myStruct: CurrentUser.self, postCompleted: { (postStruct) in
                     
                     if postStruct.Status == "Success" {
                         print("\(self.className) status \(postStruct.Status!)")
                         self.activityIndicator.stop(uiView: self)
+                    
+                        // Saving Id and Token to NSUserDefault
+                        let idToken: [String:String] = ["Id": (postStruct.Data?.Id)!, "Token": (postStruct.Data?.Token)!]
+                        UserDefaults.standard.setValue(idToken, forKey: "idToken")
+                        
                         self.showMainVC()
                     
-                        print("\(self.className) userDetails \(userDetails)")
-                        
                     }else {
-                        print("\(self.className) status not yet done")
+                        self.alertDialog.showAlertDialog(title: "Login Failed", msg: "Please try again.", viewController: self)
+                        self.activityIndicator.stop(uiView: self)
                     }
-
                 })
 
             default:
