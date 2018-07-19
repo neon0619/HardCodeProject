@@ -64,8 +64,10 @@ class SplashViewController: UIViewController {
         print("\(className) checkCurrentUser() called")
         if UserDefaults.standard.value(forKey: "idToken") != nil {
             getCurrentUserDetails()
+            print("\(className) idToken is NOT nil")
         }else {
             showSocialLoginVC()
+            print("\(className) idToken is nil")
         }
     }
     

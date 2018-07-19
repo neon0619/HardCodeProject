@@ -260,6 +260,8 @@ class SocialLoginViewController: UIViewController {
                         let idToken: [String:String] = ["Id": (postStruct.Data?.Id)!, "Token": (postStruct.Data?.Token)!]
                         UserDefaults.standard.setValue(idToken, forKey: "idToken")
                         
+                        
+                        
                         self.showMainVC()
                     
                     }else {

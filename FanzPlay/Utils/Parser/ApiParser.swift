@@ -13,7 +13,6 @@ import UIKit
  class ApiParser: NSObject {
     
     private let className = "--- ApiParser: ------->>>"
-    let userDefault = UserDefaults.standard.value(forKey: "idToken")!
     
     func request<Element: Decodable>(url: String, method: String, params: [String : AnyObject]?, myStruct: Element.Type, postCompleted: @escaping (_ postStruct: Element) -> ()) {
         
@@ -25,8 +24,11 @@ import UIKit
                 print("\(className) POST method used")
                 request.httpMethod = method
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                let jsonData = try? JSONSerialization.data(withJSONObject: params!)
+                request.httpBody = jsonData
             case "GET":
                 print("\(className) GET method used")
+                let userDefault = UserDefaults.standard.value(forKey: "idToken")!
                 request.httpMethod = method
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.addValue((userDefault as AnyObject).value(forKey: "Id") as! String, forHTTPHeaderField: "UserId")
@@ -34,11 +36,6 @@ import UIKit
             default:
                 break
         }
-        
-        
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: params!)
-        request.httpBody = jsonData
         
         URLSession.shared.dataTask(with: request) { (data, response, err) in
             
