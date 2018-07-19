@@ -252,22 +252,24 @@ class SocialLoginViewController: UIViewController {
             
                 self.apiParser.request(url: baseApiUrl+"api/user/registerexternal", method: "POST", params: fbParams, myStruct: CurrentUser.self, postCompleted: { (postStruct) in
                     
-                    if postStruct.Status == "Success" {
+                    switch postStruct.Status {
+                    case "Success":
                         print("\(self.className) status \(postStruct.Status!)")
                         self.activityIndicator.stop(uiView: self)
-                    
+                        
                         // Saving Id and Token to NSUserDefault
                         let idToken: [String:String] = ["Id": (postStruct.Data?.Id)!, "Token": (postStruct.Data?.Token)!]
                         UserDefaults.standard.setValue(idToken, forKey: "idToken")
-                        
-                        
-                        
                         self.showMainVC()
-                    
-                    }else {
+                    case "Error":
+                        print("\(self.className) errMessage \(postStruct.Message![0])")
+                        self.alertDialog.showAlertDialog(title: "FanzPlay", msg: postStruct.Message![0], viewController: self)
+                        self.activityIndicator.stop(uiView: self)
+                    default:
                         self.alertDialog.showAlertDialog(title: "Login Failed", msg: "Please try again.", viewController: self)
                         self.activityIndicator.stop(uiView: self)
                     }
+                    
                 })
 
             default:

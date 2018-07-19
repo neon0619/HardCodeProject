@@ -18,6 +18,7 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
     
     let apiParser = ApiParser()
     let activityIndicator = ActivityIndicator()
+    let alertDialog = AlertDialogs()
 
     var googleUser: GIDGoogleUser = GIDGoogleUser()
     let delegate: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
@@ -68,21 +69,26 @@ class LoginViaGoogle: UIViewController, GIDSignInUIDelegate {
             "ExternalLoginProvider": self.externalLoginProvider
         ]
         print("\(self.className) GOOGLE LOGIN SUCCESSFUL")
-        print("\(className) ----parameters---->>>>> \(parameters)")
         
-        
-        apiParser.request(url: "http://54.68.7.104:88/api/user/registerexternal", method: "POST", params: parameters as [String : AnyObject], myStruct: CurrentUser.self) { (postStruct) in
-            if postStruct.Status == "Success" {
-                print("\(self.className) status \(postStruct.Status!)")
+        apiParser.request(url: baseApiUrl+"api/user/registerexternal", method: "POST", params: parameters as [String : AnyObject], myStruct: CurrentUser.self) { (postStruct) in
+
+            switch postStruct.Status {
+                case "Success":
+                    print("\(self.className) status \(postStruct.Status!)")
                 
-                // Saving Id and Token to NSUserDefault
-                let idToken: [String:String] = ["Id": (postStruct.Data?.Id)!, "Token": (postStruct.Data?.Token)!]
-                UserDefaults.standard.setValue(idToken, forKey: "idToken")
+                    // Saving Id and Token to NSUserDefault
+                    let idToken: [String:String] = ["Id": (postStruct.Data?.Id)!, "Token": (postStruct.Data?.Token)!]
+                    UserDefaults.standard.setValue(idToken, forKey: "idToken")
                 
-                self.activityIndicator.stop(uiView: self)
-                self.showMainVC(uiVC: self.selectedViewController)
-            }else {
-                print("\(self.className) status not yet done")
+                    self.activityIndicator.stop(uiView: self)
+                    self.showMainVC(uiVC: self.selectedViewController)
+                case "Error":
+                    print("\(self.className) errMessage \(postStruct.Message![0])")
+                    self.alertDialog.showAlertDialog(title: "FanzPlay", msg: postStruct.Message![0], viewController: self)
+                    self.activityIndicator.stop(uiView: self)
+                default:
+                    self.alertDialog.showAlertDialog(title: "Login Failed", msg: "Please try again.", viewController: self)
+                    self.activityIndicator.stop(uiView: self)
             }
 
         }

@@ -38,7 +38,6 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         return imageView
     }()
     
-    
     // ShadowImage for SideView is Open
     lazy var shadowImage: UIImageView = {
         let imageView = UIImageView()
@@ -47,7 +46,6 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         imageView.isHidden = true
         return imageView
     }()
-    
 
     // UIButton for BurgerMenu
     lazy var menuBtn: UIButton = {
@@ -59,14 +57,12 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         return btn
     }()
     
-    
     // UIIMageView for FPLogo
     lazy var fpLogo: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "fp_logo")
         return imageView
     }()
-    
     
     // UIButton for Play
     lazy var btnPlay: UIButton = {
@@ -78,10 +74,9 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         button.layer.cornerRadius = 3.5
         button.layer.borderWidth = 1.1
         button.layer.borderColor = UIColor.white.cgColor
-        //        button.addTarget(self, action: #selector(registerViaEmail), for: .touchUpInside)
+        button.addTarget(self, action: #selector(play), for: .touchUpInside)
         return button
     }()
-    
     
     // UIButton for GameRules
     lazy var btnGameRules: UIButton = {
@@ -213,7 +208,6 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         initiateSubViews()
         sortUIByDeviceType()
         
-        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideSideMenu))
         viewController.addGestureRecognizer(tap)
         
@@ -231,6 +225,7 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         print("\(className) view == \(self.view.frame.width)")
         print("\(className) rect/2 == \((self.view.frame.width / 2))")
         print("\(className) rect == \((self.view.frame.width / 2) - 80)")
+        print("\(className) CurrentUser)")
         
     }
     
@@ -266,6 +261,7 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
     
     // Configure frames method
     func uiConfigMainVcSetup(loginRects: [String: Array<CGRect>]) {
+        
         fpLogo.frame                = loginRects["fpLogo"]![0]
         btnPlay.frame               = loginRects["btnPlay"]![0]
         btnGameRules.frame          = loginRects["btnGameRules"]![0]
@@ -283,7 +279,6 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         lblGameRules.frame          = loginRects["gameRules"]![1]
         btnClosePopUp.frame         = loginRects["gameRules"]![2]
         txtVRulesContent.frame      = loginRects["gameRules"]![3]
-        
         
     }
     
@@ -317,8 +312,7 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         view.addSubview(sideMenu.viewController)
         view.addSubview(sideMenu.sideMenuTable)
         view.addSubview(sideMenu.titleLbl)
-        
-        
+    
     }
     
     // Toggle SideMenu
@@ -378,6 +372,10 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
         }
     }
     
+    @objc func play() {
+        print("\(className) play triggered")
+    }
+    
     
     @objc func showTermsAndPrivacy() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -388,7 +386,6 @@ class MainViewController: UIViewController, GIDSignInUIDelegate {
     }
     
     @objc func signOut() {
-        
         hideSideMenu()
         
         print("\(className) signOut called")

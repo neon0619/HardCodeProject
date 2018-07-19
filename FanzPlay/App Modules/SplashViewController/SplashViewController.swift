@@ -50,11 +50,13 @@ class SplashViewController: UIViewController {
         // Get Reverse GeoLocation on the background
 //        reverseGeoCoder.getReverseGeoLoc()
         
+        // Check app if Currently Installed
         if userDefault != "installed" {
             self.showSocialLoginVC()
         }else {
             NotificationCenter.default.addObserver(self, selector: #selector(checkCurrentUser), name: NSNotification.Name("GoogleSignInNotif"), object: nil)
             checkCurrentUser()
+            
         }
     }
     
@@ -75,14 +77,17 @@ class SplashViewController: UIViewController {
         
         apiParser.request(url: baseApiUrl+"api/user/getuserdetails", method: "GET", params: [String : AnyObject](), myStruct: CurrentUser.self) { (postStruct) in
             
-            if postStruct.Status == "Success" {
+            switch postStruct.Status {
+            case "Success":
                 print("\(self.className) status \(postStruct.Status!)")
-
                 self.showMainVC()
-                
-            }else {
-                self.alertDialog.showAlertDialog(title: "Fetching details failed", msg: "Please try again.", viewController: self)
+            case "Error":
+                print("\(self.className) errMessage \(postStruct.Message![0])")
+                self.alertDialog.showAlertDialog(title: "FanzPlay", msg: postStruct.Message![0], viewController: self)
+            default:
+                self.alertDialog.showAlertDialog(title: "FanzPlay", msg: "Fetching details failed. Please try again.", viewController: self)
             }
+            
         }
         
     }
@@ -102,68 +107,7 @@ class SplashViewController: UIViewController {
         GIDSignIn.sharedInstance().signInSilently()
         Auth.auth().addStateDidChangeListener { (auth, user) in
             
-//            if user != nil {
-//                if UserDefaults.standard.string(forKey: "uid") != nil && Auth.auth().currentUser != nil {
-//                    print("\(self.className) user Already signedIn --->> \(String(describing: user))")
-//                    self.showMainVC()
-//
-//                }else {
-//                    print("\(self.className) No user is signed in --->> \(String(describing: user))")
-//                    self.showSocialLoginVC()
-//                }
-//
-//            }else {
-//                print("\(self.className) user is NIL")
-//                self.showSocialLoginVC()
-//            }
-//
-//            UserDefaults.standard.setValue(user?.uid, forKeyPath: "uid")
-//            print("\(self.className) userDefault \(UserDefaults.standard.setValue(user?.uid, forKeyPath: "uid"))")
-            
-//            Auth.auth().addStateDidChangeListener { (auth, user) in
-//                if user != nil {
-//                    if UserDefaults.standard.string(forKey: "uid") != nil && Auth.auth().currentUser != nil {
-//                        //User was already logged in
-//                        print("\(self.className) User was already logged in")
-//                        self.showMainVC()
-//                    }
-//                    UserDefaults.standard.setValue(user?.uid, forKeyPath: "uid")
-//                }else {
-//                    print("\(self.className) User was NOT logged in")
-//                    self.showSocialLoginVC()
-//                }
-//            }
 
-            
-//            if let user = user {
-//                // User is signed in. Show home screen
-//                print("\(self.className) user Already signedIn --->> \(String(describing: user))")
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                    self.showMainVC()
-//                }
-//
-//            }else {
-//                // No User is signed in. Show user the login screen
-//                print("\(self.className) No user is signed in --->> \(String(describing: user))")
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                    self.showSocialLoginVC()
-//                }
-//            }
-            
-//            if Auth.auth().currentUser != nil {
-//                // User is signed in.
-//                print("\(self.className) user Already signedIn --->> \(String(describing: Auth.auth().currentUser))")
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                    self.showMainVC()
-//                }
-//            }else {
-//                // No user is signed in.
-//                print("\(self.className) No user is signed in --->> \(String(describing: Auth.auth().currentUser))")
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                    self.showSocialLoginVC()
-//                }
-//
-//            }
             
         }
         
@@ -185,7 +129,7 @@ class SplashViewController: UIViewController {
     }
     
     @objc func showMainVC() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
             print("\(self.className) MainViewController called")
             let svc = MainViewController()
             svc.modalTransitionStyle = UIModalTransitionStyle.crossDissolve

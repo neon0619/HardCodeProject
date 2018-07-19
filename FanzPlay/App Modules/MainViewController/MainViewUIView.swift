@@ -34,15 +34,7 @@ struct VIEW_CONFIG_EXLOGINVIEW {
                                                              "gameRules": [CGRect(x: 10, y: 57, width: 300, height: 480),
                                                                            CGRect(x: 10, y: 29, width: 130, height: 24),
                                                                            CGRect(x: 271, y: 2, width: 27, height: 27),
-                                                                           CGRect(x: 7, y: 61, width: 285, height: 402)]
-            
-            
-            
-            
-            
-            
-            
-        ]
+                                                                           CGRect(x: 7, y: 61, width: 285, height: 402)]]
         
         
     }
