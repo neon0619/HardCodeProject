@@ -14,6 +14,8 @@
 		6A6C70FE20F30347005F8744 /* SignUpUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C70FD20F30347005F8744 /* SignUpUIView.swift */; };
 		6A6C710020F34BDB005F8744 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C70FF20F34BDB005F8744 /* ActivityIndicator.swift */; };
 		6A6C710320F35806005F8744 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C710220F35806005F8744 /* Segue.swift */; };
+		6A703F882101AEAC0008EE85 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A703F872101AEAC0008EE85 /* CollectionViewCell.swift */; };
+		6A703F8A2101D0390008EE85 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A703F892101D0390008EE85 /* CustomImageView.swift */; };
 		6A7609A620E5BD8700A61AC8 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7609A520E5BD8700A61AC8 /* UserDataModel.swift */; };
 		6A80869620D8A10000DD0F2D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A80869320D8A10000DD0F2D /* UIColor.swift */; };
 		6A80869720D8A10000DD0F2D /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A80869520D8A10000DD0F2D /* DeviceType.swift */; };
@@ -50,6 +52,8 @@
 		6A6C70FD20F30347005F8744 /* SignUpUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUIView.swift; sourceTree = "<group>"; };
 		6A6C70FF20F34BDB005F8744 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		6A6C710220F35806005F8744 /* Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
+		6A703F872101AEAC0008EE85 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		6A703F892101D0390008EE85 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		6A7609A520E5BD8700A61AC8 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
 		6A80869320D8A10000DD0F2D /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		6A80869420D8A10000DD0F2D /* CommonCryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonCryptor.h; sourceTree = "<group>"; };
@@ -259,7 +263,9 @@
 			isa = PBXGroup;
 			children = (
 				6A9C0B2021005A6E00636A10 /* SponsorsUIView.swift */,
+				6A703F872101AEAC0008EE85 /* CollectionViewCell.swift */,
 				6A9C0B1D21005A1900636A10 /* SponsorViewController.swift */,
+				6A703F892101D0390008EE85 /* CustomImageView.swift */,
 			);
 			path = SponsorsList;
 			sourceTree = "<group>";
@@ -515,6 +521,8 @@
 				6A80869620D8A10000DD0F2D /* UIColor.swift in Sources */,
 				6A85CB1A20E35AF500106766 /* AlertDialogs.swift in Sources */,
 				6A3431B320D782FB00DD5DB1 /* ReverseGeoCoder.swift in Sources */,
+				6A703F882101AEAC0008EE85 /* CollectionViewCell.swift in Sources */,
+				6A703F8A2101D0390008EE85 /* CustomImageView.swift in Sources */,
 				6AB0FAE620D9FEE700DC65A8 /* SignUpViaEmail.swift in Sources */,
 				6AD0450F20D7A7180030ED4E /* SplashViewController.swift in Sources */,
 				6AB0FAF120DA02D700DC65A8 /* SocialLoginViewController.swift in Sources */,

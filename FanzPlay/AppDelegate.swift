@@ -77,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().delegate = self
 
         
-        // Make statusBarStyle color White
+        // Make statusBarStyle color Whit
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         
         self.reverseGeoCoder.getReverseGeoLoc()

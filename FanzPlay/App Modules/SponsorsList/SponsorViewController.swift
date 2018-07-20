@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SponsorViewController: UIViewController {
+class SponsorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     
     
 //    @IBOutlet weak var imgBg: UIImageView!
@@ -47,14 +47,27 @@ class SponsorViewController: UIViewController {
         return lblLabel
     }()
     
+    let leftAndRightPaddings: CGFloat = 80.0
+    let numberOfItemsPerRow: CGFloat = 7.0
+    let screenSize: CGRect = UIScreen.main.bounds
+    var items = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    
     // UICollectionView for SponsorList
     lazy var cvSponsors: UICollectionView = {
-        let collView = UICollectionView()
         
-        collView.scrollDi
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
         
+        let collView = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
+        collView.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
+        collView.delegate = self
+        collView.dataSource = self
+        collView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         return collView
     }()
+    
+    
+    let imgArray = ["http://54.68.7.104:88//sponsor-images/19c465fd40454972973338dcee9a530b/f52d5712c76e4676a1094fe2f7b3fee0","http://54.68.7.104:88//sponsor-images/19c465fd40454972973338dcee9a530b/569ced964ff147a2a9b07a3ca6bbd599", "http://54.68.7.104:88//sponsor-images/19c465fd40454972973338dcee9a530b/1d4d099b9ba4460881419af9f7a20daf"]
     
     
     override func viewDidLoad() {
@@ -62,6 +75,26 @@ class SponsorViewController: UIViewController {
         initiateSubViews()
         sortUIByDeviceType()
     }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.items.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionViewCell
+        
+        cell.backgroundColor = UIColor.black
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
     
     
     // Get the Arrays of CGRect per Device Type
@@ -97,7 +130,7 @@ class SponsorViewController: UIViewController {
     func uiConfigMainVcSetup(loginRects: [String: Array<CGRect>]) {
         
         lblTitle.frame              = loginRects["lblTitle"]![0]
-//        cvSponsors.frame              = loginRects["cvSponsors"]![0]
+        cvSponsors.frame              = loginRects["cvSponsors"]![0]
 //        fpLogo.frame                = loginRects["fpLogo"]![0]
 //        btnMainMenu.frame           = loginRects["btnMainMenu"]![0]
     
@@ -110,6 +143,7 @@ class SponsorViewController: UIViewController {
         view.addSubview(viewController)
         view.addSubview(bgImage)
         view.addSubview(lblTitle)
+        view.addSubview(cvSponsors)
     }
     
     
