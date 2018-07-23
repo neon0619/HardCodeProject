@@ -55,6 +55,36 @@ import UIKit
             }
             }.resume()
     }
+    
+    
+    func imgParser(urlString: String, method: String, postCompleted: @escaping (_ imageData: Data) -> ()) {
+        
+        guard let url = URL(string: urlString) else { return }
+        var request = URLRequest(url: url)
+        
+//        let userDefault = UserDefaults.standard.value(forKey: "idToken")!
+        request.httpMethod = method
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.addValue((userDefault as AnyObject).value(forKey: "Id") as! String, forHTTPHeaderField: "UserId")
+//        request.addValue((userDefault as AnyObject).value(forKey: "Token") as! String, forHTTPHeaderField: "UserToken")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            if error != nil {
+                print("Error === \(error!.localizedDescription)")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                print("------->>> data == \(data!)")
+                postCompleted(data!)
+            }
+            
+            }.resume()
+        
+    }
+
+    
 }
 
 

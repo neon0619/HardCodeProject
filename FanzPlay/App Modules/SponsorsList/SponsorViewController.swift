@@ -17,6 +17,8 @@ class SponsorViewController: UIViewController, UICollectionViewDataSource, UICol
 //    @IBOutlet weak var imgLogo: UIImageView!
 //    @IBOutlet weak var btnMain: UIButton!
     
+    let apiParser = ApiParser()
+    
     // UIView for MainViewController
     lazy var viewController: UIView = {
         let viewView = UIView()
@@ -66,9 +68,7 @@ class SponsorViewController: UIViewController, UICollectionViewDataSource, UICol
         return collView
     }()
     
-    
     let imgArray = ["http://54.68.7.104:88//sponsor-images/19c465fd40454972973338dcee9a530b/f52d5712c76e4676a1094fe2f7b3fee0","http://54.68.7.104:88//sponsor-images/19c465fd40454972973338dcee9a530b/569ced964ff147a2a9b07a3ca6bbd599", "http://54.68.7.104:88//sponsor-images/19c465fd40454972973338dcee9a530b/1d4d099b9ba4460881419af9f7a20daf"]
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,13 +77,25 @@ class SponsorViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.items.count
+        return imgArray.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionViewCell
         
+        
+        apiParser.imgParser(urlString: imgArray[indexPath.row], method: "GET") { (imageData) in
+            
+            DispatchQueue.main.async {
+                cell.uiImage.image = UIImage(data: imageData)
+                            }
+            
+            
+        }
+    
         cell.backgroundColor = UIColor.black
+
+        
         return cell
     }
     

@@ -10,8 +10,17 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
     
+    lazy var uiImage: UIImageView = {
+        let imgImage = UIImageView()
+        imgImage.contentMode = .scaleAspectFit
+        return imgImage
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        addSubview(uiImage)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
