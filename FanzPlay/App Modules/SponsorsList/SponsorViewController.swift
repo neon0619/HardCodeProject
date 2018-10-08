@@ -142,7 +142,7 @@ class SponsorViewController: UIViewController, UICollectionViewDataSource, UICol
     func uiConfigMainVcSetup(loginRects: [String: Array<CGRect>]) {
         
         lblTitle.frame              = loginRects["lblTitle"]![0]
-        cvSponsors.frame              = loginRects["cvSponsors"]![0]
+        cvSponsors.frame            = loginRects["cvSponsors"]![0]
 //        fpLogo.frame                = loginRects["fpLogo"]![0]
 //        btnMainMenu.frame           = loginRects["btnMainMenu"]![0]
     

@@ -78,6 +78,7 @@ PODS:
 
 DEPENDENCIES:
   - Bolts
+  - FacebookCore
   - FacebookLogin
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -87,7 +88,7 @@ DEPENDENCIES:
   - GoogleSignIn
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Bolts
     - FacebookCore
     - FacebookLogin
@@ -125,6 +126,6 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
 
-PODFILE CHECKSUM: e276cd80f9f76cfb4648ecbc7fee46dd3a86eef5
+PODFILE CHECKSUM: a06c1007a31e3d8872b2c404654d573aa10f944d
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3
