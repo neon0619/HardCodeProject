@@ -83,18 +83,29 @@ class SponsorViewController: UIViewController, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionViewCell
         
+//        apiParser.imgParser(urlString: imgArray[indexPath.row], method: "GET") { (imageData) in
+//
+//            DispatchQueue.main.async {
+//                print("ImageData ---->>> \(imageData)")
+//                cell.uiImage.image = UIImage(data: imageData)
+//                self.cvSponsors.reloadData()
+//            }
+//
+//        }
         
-        apiParser.imgParser(urlString: imgArray[indexPath.row], method: "GET") { (imageData) in
-            
-            DispatchQueue.main.async {
-                cell.uiImage.image = UIImage(data: imageData)
-                            }
-            
-            
-        }
-    
         cell.backgroundColor = UIColor.black
-
+        
+        if let imgUrl = URL(string: imgArray[indexPath.row]) {
+            DispatchQueue.global().async {
+                let data  = try? Data(contentsOf: imgUrl)
+                if let data = data {
+                    let image = UIImage(data: data)
+                    DispatchQueue.main.async {
+                        cell.uiImage.image = image
+                    }
+                }
+            }
+        }
         
         return cell
     }

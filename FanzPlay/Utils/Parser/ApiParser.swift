@@ -68,7 +68,14 @@ import UIKit
 //        request.addValue((userDefault as AnyObject).value(forKey: "Id") as! String, forHTTPHeaderField: "UserId")
 //        request.addValue((userDefault as AnyObject).value(forKey: "Token") as! String, forHTTPHeaderField: "UserToken")
         
+        
+        print("urlString used ---->>> \(urlString)")
+        
         URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+//            print("data  ---->>> \(data)")
+//            print("response  ---->>> \(response)")
+//            print("error  ---->>> \(error)")
             
             if error != nil {
                 print("Error === \(error!.localizedDescription)")
