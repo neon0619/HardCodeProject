@@ -68,6 +68,15 @@ class SponsorViewController: UIViewController, UICollectionViewDataSource, UICol
         return collView
     }()
     
+    
+//    lazy var sampleImage: UIImageView = {
+//        let imgImage = UIImageView()
+//        imgImage.contentMode = .scaleAspectFit
+//        imgImage.image = UIImage(named: "btn_icon_google")
+//        return imgImage
+//    }()
+
+    
     let imgArray = ["http://54.68.7.104:88//sponsor-images/19c465fd40454972973338dcee9a530b/f52d5712c76e4676a1094fe2f7b3fee0","http://54.68.7.104:88//sponsor-images/19c465fd40454972973338dcee9a530b/569ced964ff147a2a9b07a3ca6bbd599", "http://54.68.7.104:88//sponsor-images/19c465fd40454972973338dcee9a530b/1d4d099b9ba4460881419af9f7a20daf"]
     
     override func viewDidLoad() {
@@ -83,29 +92,8 @@ class SponsorViewController: UIViewController, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionViewCell
         
-//        apiParser.imgParser(urlString: imgArray[indexPath.row], method: "GET") { (imageData) in
-//
-//            DispatchQueue.main.async {
-//                print("ImageData ---->>> \(imageData)")
-//                cell.uiImage.image = UIImage(data: imageData)
-//                self.cvSponsors.reloadData()
-//            }
-//
-//        }
-        
         cell.backgroundColor = UIColor.black
-        
-        if let imgUrl = URL(string: imgArray[indexPath.row]) {
-            DispatchQueue.global().async {
-                let data  = try? Data(contentsOf: imgUrl)
-                if let data = data {
-                    let image = UIImage(data: data)
-                    DispatchQueue.main.async {
-                        cell.uiImage.image = image
-                    }
-                }
-            }
-        }
+        cell.uiImage.parseImageUrl(url: URL(string: imgArray[indexPath.row])!)
         
         return cell
     }
