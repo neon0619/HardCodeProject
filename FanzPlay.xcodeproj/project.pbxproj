@@ -16,6 +16,7 @@
 		6A6C710320F35806005F8744 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C710220F35806005F8744 /* Segue.swift */; };
 		6A703F882101AEAC0008EE85 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A703F872101AEAC0008EE85 /* CollectionViewCell.swift */; };
 		6A703F8A2101D0390008EE85 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A703F892101D0390008EE85 /* CustomImageView.swift */; };
+		6A70FC5821782E65006C0A44 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A70FC5721782E65006C0A44 /* SideMenuView.swift */; };
 		6A7609A620E5BD8700A61AC8 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7609A520E5BD8700A61AC8 /* UserDataModel.swift */; };
 		6A7A8072216DE9FD00BA67EC /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7A8071216DE9FD00BA67EC /* UIImageView.swift */; };
 		6A80869620D8A10000DD0F2D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A80869320D8A10000DD0F2D /* UIColor.swift */; };
@@ -55,6 +56,7 @@
 		6A6C710220F35806005F8744 /* Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
 		6A703F872101AEAC0008EE85 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		6A703F892101D0390008EE85 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		6A70FC5721782E65006C0A44 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		6A7609A520E5BD8700A61AC8 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
 		6A7A8071216DE9FD00BA67EC /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		6A80869320D8A10000DD0F2D /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				6A8143AB20D0DF6900C7E20D /* SideMenu.swift */,
+				6A70FC5721782E65006C0A44 /* SideMenuView.swift */,
 			);
 			path = SideMenu;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 			files = (
 				6A8143AC20D0DF6900C7E20D /* SideMenu.swift in Sources */,
 				6A8143B220D100C700C7E20D /* MainViewUIView.swift in Sources */,
+				6A70FC5821782E65006C0A44 /* SideMenuView.swift in Sources */,
 				6A8D68B320CF5A84005DFFE9 /* MainViewController.swift in Sources */,
 				6A8D68B120CF5A83005DFFE9 /* AppDelegate.swift in Sources */,
 				6AB0FAE920D9FF3800DC65A8 /* LoginViaFacebook.swift in Sources */,
