@@ -73,12 +73,17 @@ class SideMenu: UIViewController, UITableViewDelegate, UITableViewDataSource {
         viewController.frame = CGRect(x: -viewController.frame.size.width - 150, y: 0, width: self.view.frame.size.width - 120, height: self.view.frame.size.height)
         sideMenuTable.frame = CGRect(x: -viewController.frame.size.width - 150, y: 80, width: self.view.frame.size.width - 120, height: self.view.frame.size.height - 80)
         titleLbl.frame = CGRect(x: -viewController.frame.size.width - 150 + 30, y: 30, width: 160, height: 20)
+        
+        print("hideSideMenuDown sideMenuTable.frame ----->>> \(viewController.frame.debugDescription)")
+        
     }
     
     func showSideMenuUp() {
         viewController.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width - 120, height: self.view.frame.size.height)
         sideMenuTable.frame = CGRect(x: 0, y: 80, width: self.view.frame.size.width - 120, height: self.view.frame.size.height - 80)
         titleLbl.frame = CGRect(x: 30, y: 30, width: 160, height: 20)
+        
+        print("showSideMenuUp sideMenuTable.frame ----->>> \(viewController.frame.debugDescription)")
     }
     
     // Get the Arrays of CGRect per Device Type
