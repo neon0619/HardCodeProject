@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 
 
-
 class ReverseGeoCoder: NSObject  {
     
     var locationManager = CLLocationManager()
